@@ -1,11 +1,3 @@
-# Copyright (C) 2019 The Raphielscape Company LLC.
-#
-# Licensed under the Raphielscape Public License, Version 1.c (the "License");
-# you may not use this file except in compliance with the License.
-#
-# The entire source code is OSSRPL except
-# 'download, uploadir, uploadas, upload' which is MPL
-# License: MPL and OSSRPL
 """ Userbot module which contains everything related to
      downloading/uploading from/to the server. """
 
@@ -21,6 +13,7 @@ from hachoir.parser import createParser
 from pySmartDL import SmartDL
 from requests import get
 from telethon.tl.types import DocumentAttributeAudio, DocumentAttributeVideo
+from telethon.errors import FloodWaitError
 
 from userbot import CMD_HELP, LOGS, TEMP_DOWNLOAD_DIRECTORY
 from userbot.events import register
@@ -67,8 +60,8 @@ async def download(target_file):
             percentage = downloader.get_progress() * 100
             speed = downloader.get_speed()
             progress_str = "[{}{}] `{}%`".format(
-                "".join("●" for _ in range(math.floor(percentage / 10))),
-                "".join("○" for _ in range(10 - math.floor(percentage / 10))),
+                "".join("■" for _ in range(math.floor(percentage / 10))),
+                "".join("▨" for _ in range(10 - math.floor(percentage / 10))),
                 round(percentage, 2),
             )
 
@@ -83,7 +76,11 @@ async def download(target_file):
                 )
 
                 if round(diff % 15.00) == 0 and current_message != display_message:
-                    await target_file.edit(current_message)
+                    try:
+                        await target_file.edit(current_message)
+                    except FloodWaitError as ex:
+                           LOGS.info(f"Trying to sleep for {ex}")
+                           await asyncio.sleep(ex.seconds)
                     display_message = current_message
             except Exception as e:
                 LOGS.info(str(e))
@@ -166,6 +163,8 @@ async def get_video_thumb(file, output):
 async def upload(event):
     await event.edit("**Processing...**")
     input_str = event.pattern_match.group(1)
+    if input_str in ("userbot.session", "config.env"):
+        return await u_event.edit("`That's a dangerous operation! Not Permitted!`")
     if os.path.exists(input_str):
         if os.path.isfile(input_str):
             c_time = time.time()
@@ -227,7 +226,7 @@ async def upload(event):
                 result,
                 thumb=thumb,
                 caption=file_name,
-                force_document=False,
+                force_document=True,
                 allow_cache=False,
                 reply_to=event.message.id,
                 attributes=attributes,
@@ -294,15 +293,19 @@ async def upload(event):
                             performer=artist,
                         )
                     ]
-                await event.client.send_file(
-                    event.chat_id,
-                    result,
-                    thumb=thumb,
-                    caption=file_name,
-                    force_document=False,
-                    allow_cache=False,
-                    attributes=attributes,
-                )
+                try:    
+                    await event.client.send_file(
+                          event.chat_id,
+                          result,
+                          thumb=thumb,
+                          caption=file_name,
+                          force_document=False,
+                          allow_cache=False,
+                          attributes=attributes,
+                         )
+                except FloodWaitError as ex:
+                       LOGS.info(f"Trying to sleep for {ex}")  
+                       await asyncio.sleep(ex.seconds)
                 await msg.delete()
                 if thumb is not None:
                     os.remove(thumb)
@@ -363,8 +366,12 @@ async def download(target_file):
                 )
 
                 if round(diff % 10.00) == 0 and current_message != display_message:
-                    await target_file.edit(current_message)
-                    display_message = current_message
+                   try:      
+                       await target_file.edit(current_message)
+                   except FloodWaitError as ex:
+                           LOGS.info(f"Trying to sleep for {ex}")
+                           await asyncio.sleep(ex.seconds)      
+                   display_message = current_message
             except Exception as e:
                 LOGS.info(str(e))
         if downloader.isSuccessful():
@@ -397,6 +404,8 @@ async def download(target_file):
 async def uploadir(udir_event):
     """ For .uploadir command, allows you to upload everything from a folder in the server"""
     input_str = udir_event.pattern_match.group(1)
+    if input_str in ("userbot.session", "config.env"):
+        return await u_event.edit("`That's a dangerous operation! Not Permitted!`")
     if os.path.exists(input_str):
         await udir_event.edit("Processing ...")
         lst_of_files = []
@@ -482,7 +491,7 @@ async def upload(u_event):
         await u_event.client.send_file(
             u_event.chat_id,
             input_str,
-            force_document=True,
+            force_document=False,
             allow_cache=False,
             reply_to=u_event.message.id,
             progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
@@ -493,6 +502,32 @@ async def upload(u_event):
     else:
         await u_event.edit("404: File Not Found")
 
+
+#def get_video_thumb(file, output=None, width=90):
+ #   """ Get video thumbnail """
+#    metadata = extractMetadata(createParser(file))
+ #   popen = subprocess.Popen(
+  #      [
+   #         "ffmpeg",
+    #        "-i",
+     #       file,
+      #      "-ss",
+       #     str(
+      #          int((0, metadata.get("duration").seconds)[metadata.has("duration")] / 2)
+      #      ),
+      #      "-filter:v",
+       #     "scale={}:-1".format(width),
+        #    "-vframes",
+         #   "1",
+          #  output,
+#        ],
+ #       shell=True,
+  #      stdout=subprocess.PIPE,
+   #     stderr=subprocess.DEVNULL,
+    #)
+  #  if not popen.returncode and os.path.lexists(file):
+  #     return output
+  #  return None
 
 
 def extract_w_h(file):
