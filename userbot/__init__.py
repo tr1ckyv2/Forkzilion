@@ -26,10 +26,6 @@ from telethon import __version__, version
 load_dotenv("config.env")
 
 STORAGE = (lambda n: Storage(Path("data") / n))
-
-# TG BOT TOKEN AND BOT USERNAME
-BOT_TOKEN = os.environ.get("BOT_TOKEN") or None
-BOT_USERNAME = os.environ.get("BOT_USERNAME") or None
 StartTime = time.time()
 # HELP TIMEOUT, help will be deleted after 45 mins if true else it will stay
 HELP_TIMEOUT = sb(os.environ.get("HELP_TIMEOUT") or "False")
@@ -148,6 +144,12 @@ ALIVE_LOGO = str(os.environ.get("ALIVE_LOGO") or "https://github.com/ElytrA8/Pro
 
 # .alive and .help timeout
 TIMEOUT = sb(os.environ.get("TIMEOUT") or "True")
+
+
+# TG BOT TOKEN AND BOT USERNAME
+BOT_TOKEN = os.environ.get("BOT_TOKEN") or None
+BOT_USERNAME = os.environ.get("BOT_USERNAME") or None
+OWNER_ID = os.environ.get("OWNER_ID") or None
 
 # Time & Date - Country and Time Zone
 COUNTRY = str(os.environ.get("COUNTRY") or "")
