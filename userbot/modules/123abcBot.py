@@ -85,15 +85,6 @@ async def get_readable_time(seconds: int) -> str:
 
     return up_time
 
-try:
-    LOGS.info("INITIATING INLINEBOT....")
-    inlinebot = TelegramClient("inlinebot", API_KEY, API_HASH).start(bot_token=BOT_TOKEN)
-    bot.loop.run_until_complete(add_bot(BOT_USERNAME))
-    LOGS.info("INLINEBOT IS ONLINE NOW")
-except Exception as e:
-    LOGS.info("INLINEBOT FAILED.")
-    LOGS.info("INLINEBOT is quiting...")
-    LOGS.info(str(e))
     
     
 @inlinebot.on(events.NewMessage(pattern="/start"))  # pylint: disable=oof
