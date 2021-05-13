@@ -14,7 +14,7 @@ from telethon import TelegramClient, events, Button
 import telethon.utils
 from telethon.tl.functions.users import GetFullUserRequest
 from telethon.errors.rpcerrorlist import PhoneNumberInvalidError
-from userbot import LOGS, bot, BOT_TOKEN, BOT_USERNAME, API_KEY, API_HASH, ALIVE_LOGO, USERBOT_VERSION, StartTime, ALIVE_NAME, CMD_HELP
+from userbot import LOGS, bot, BOT_TOKEN, BOT_USERNAME, API_KEY, API_HASH, ALIVE_LOGO, USERBOT_VERSION, StartTime, ALIVE_NAME, CMD_HELP, OWNER_ID
 from userbot.modules import ALL_MODULES
 from platform import python_version, uname
 from shutil import which
@@ -28,8 +28,6 @@ async def add_bot(bot_token):
     await bot.start(bot_token)
     bot.me = await bot.get_me()
     bot.uid = telethon.utils.get_peer_id(bot.me)
-
-OWNER_ID = 1391975600
 
 DEFAULTUSER = str(ALIVE_NAME) if ALIVE_NAME else uname().node
 modules = CMD_HELP
