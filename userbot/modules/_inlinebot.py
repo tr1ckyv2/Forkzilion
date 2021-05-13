@@ -83,11 +83,11 @@ async def get_readable_time(seconds: int) -> str:
 async def start_all(e):
         userid = await e.client(GetFullUserRequest(e.sender_id))
         if userid == OWNER_ID:
-                await inlinebot.send_message(e.chat_id, "YES BOSS")
+                await inlinebot.send_message("YES BOSS")
                 await start(e)
         
         if userid != OWNER_ID:
-                await inlinebot.send_message(e.chat_id, "You are not my boss but proceed anyway")  
+                await inlinebot.send_message("You are not my boss but proceed anyway")  
                 await start(e)
         
                 
@@ -102,7 +102,7 @@ async def start(e):
                           ],
                   )
         
-async def start(e):
+async def back(e):
     userid = await e.client(GetFullUserRequest(e.sender_id))
     await e.reply(alive_text,
                   buttons=[
@@ -130,16 +130,15 @@ async def _(e):
     
 @inlinebot.on(events.InlineQuery)
 async def handler(event):
-#    builder = event.builder
+    builder = event.builder
 
     # Two options (convert user text to UPPERCASE or lowercase)
-   # await event.answer([
-   #     builder.article('UPPERCASE', text=event.text.upper()),
-   #     builder.article('lowercase', text=event.text.lower()),
-   # ])
+    await event.answer([
+        builder.article('UPPERCASE', text=event.text.upper()),
+        builder.article('lowercase', text=event.text.lower()),
+    ])
     
     if event.query.user_id == OWNER_ID:
-          builder = event.builder
           query = event.text
           uptime = await get_readable_time((time.time() - StartTime))  
           alive = builder.photo(
