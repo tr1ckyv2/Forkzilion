@@ -97,7 +97,7 @@ async def start(e):
                   buttons=[
                           [Button.inline("TESTBUTTON", data="test")],
                           [
-                                  Button.url("MASTER", url=f"t.me/{BOT_USER_NAME}"),
+                                  Button.url("MASTER", url=f"t.me/{BOT_USERNAME}"),
                                 ],
                           ],
                   )
@@ -108,7 +108,7 @@ async def start(e):
                   buttons=[
                           [Button.inline("TESTBUTTON", data="test")],
                           [
-                                  Button.url("MASTER", url=f"t.me/{BOT_USER_NAME}"),
+                                  Button.url("MASTER", url=f"t.me/{BOT_USERNAME}"),
                                 ],
                           ],
                   )
