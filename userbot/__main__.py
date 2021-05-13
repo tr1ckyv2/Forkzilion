@@ -32,16 +32,6 @@ INVALID_PH = '\nERROR: The Phone No. entered is INVALID' \
              '\n Tip: Use Country Code along with number.' \
              '\n or check your phone number and try again !'
 
-async def add_bot(bot_token):
-    try:
-        await bot.start(bot_token)
-        bot.me = await bot.get_me()
-        bot.uid = telethon.utils.get_peer_id(bot.me)
-    except Exception as e:
-        LOGS.error(f"STRING_SESSION - {str(e)}")
-        sys.exit()
-
-
 try:
     bot.start()
 except PhoneNumberInvalidError:
@@ -50,17 +40,7 @@ except PhoneNumberInvalidError:
 
 for module_name in ALL_MODULES:
     imported_module = import_module("userbot.modules." + module_name)
-    
-    
-try:
-    LOGS.info("Initiating InlineBot....")
-    inlinebot = TelegramClient("inlinebot", API_KEY, API_HASH).start(bot_token=BOT_TOKEN)
-    bot.loop.run_until_complete(add_bot(BOT_USERNAME))
-    LOGS.info("InlineBot is online now")
-except Exception as e:
-    LOGS.info("InlineBot Failed .")
-    LOGS.info("InlineBot is quiting...")
-    LOGS.info(str(e))
+   
     
 LOGS.info("You are running Project Fizilion")
 
