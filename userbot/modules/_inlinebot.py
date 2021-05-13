@@ -21,7 +21,7 @@ from shutil import which
 import psutil
 from git import Repo
 from telethon import __version__, version
-from userbot.main import inlinebot
+from . import inlinebot
 
 
 async def add_bot(bot_token):
