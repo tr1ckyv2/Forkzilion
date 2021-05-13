@@ -94,7 +94,8 @@ async def start_all(e):
                 
 async def start(e):
     userid = await e.client(GetFullUserRequest(e.sender_id))
-    await e.reply(alive_text,
+    await e.reply(file=ALIVE_LOGO,
+                  text=alive_text,
                   buttons=[
                           [Button.inline("TESTBUTTON", data="test")],
                           [
@@ -105,7 +106,8 @@ async def start(e):
         
 async def back(e):
     userid = await e.client(GetFullUserRequest(e.sender_id))
-    await e.reply(alive_text,
+    await e.reply(file=ALIVE+LOGO,
+                  text=alive_text,
                   buttons=[
                           [Button.inline("TESTBUTTON", data="test")],
                           [
@@ -131,14 +133,7 @@ async def _(e):
     
 @inlinebot.on(events.InlineQuery)
 async def handler(event):
-    builder = event.builder
-
-    # Two options (convert user text to UPPERCASE or lowercase)
-    await event.answer([
-        builder.article('UPPERCASE', text=event.text.upper()),
-        builder.article('lowercase', text=event.text.lower()),
-    ])
-    
+    builder = event.builder   
     if event.query.user_id == OWNER_ID:
           query = event.text
           uptime = await get_readable_time((time.time() - StartTime))  
