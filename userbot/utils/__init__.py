@@ -21,3 +21,5 @@ from .tools import (
     edit_or_reply,
     media_type
 )
+
+from .inline_bot_helper import inlinebot
