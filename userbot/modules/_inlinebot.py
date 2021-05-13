@@ -82,12 +82,12 @@ async def get_readable_time(seconds: int) -> str:
 @inlinebot.on(events.NewMessage(pattern="/start"))  # pylint: disable=oof
 async def start_all(e):
         userid = await e.client(GetFullUserRequest(e.sender_id))
-        if userid == OWNER_ID:
-                await inlinebot.send_message("YES BOSS")
+        if userid in OWNER_ID:
+                await inlinebot.send_message(e.chat_id, "YES BOSS")
                 await start(e)
         
-        if userid != OWNER_ID:
-                await inlinebot.send_message("You are not my boss but proceed anyway")  
+        if userid not in OWNER_ID:
+                await inlinebot.send_message(e.chat_id, "You are not my boss but proceed anyway")  
                 await start(e)
         
                 
