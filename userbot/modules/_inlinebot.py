@@ -86,7 +86,7 @@ async def start_all(e):
                 await inlinebot.send_message(e.chat_id, "YES BOSS")
                 await start(e)
         
-        if userid =! OWNER_ID:
+        if userid != OWNER_ID:
                 await inlinebot.send_message(e.chat_id, "You are not my boss but proceed anyway")  
                 await start(e)
         
