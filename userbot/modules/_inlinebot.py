@@ -21,13 +21,8 @@ from shutil import which
 import psutil
 from git import Repo
 from telethon import __version__, version
-from userbot.__main__ import inlinebot
 
-
-async def add_bot(bot_token):
-    await bot.start(bot_token)
-    bot.me = await bot.get_me()
-    bot.uid = telethon.utils.get_peer_id(bot.me)
+from userbot.utils import inlinebot
 
 DEFAULTUSER = str(ALIVE_NAME) if ALIVE_NAME else uname().node
 modules = CMD_HELP
