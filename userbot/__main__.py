@@ -32,6 +32,15 @@ INVALID_PH = '\nERROR: The Phone No. entered is INVALID' \
              '\n Tip: Use Country Code along with number.' \
              '\n or check your phone number and try again !'
 
+async def add_bot(bot_token):
+    try:
+        await bot.start(bot_token)
+        bot.me = await bot.get_me()
+        bot.uid = telethon.utils.get_peer_id(bot.me)
+    except Exception as e:
+        LOGS.error(f"STRING_SESSION - {str(e)}")
+        sys.exit()
+
 
 try:
     bot.start()
