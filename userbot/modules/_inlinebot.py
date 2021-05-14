@@ -134,7 +134,8 @@ async def handler(event):
     else:
           notmaster = builder.article(
                   title="REPO",
-                  description="Deploy your own Fizlion Userbot",
+                  description="Setup your own Fizlion Userbot",
+                  url="https://github.com/PrajjuS/ProjectFizilion,"
                   text="**Click here to open Fizilion Bot's Github Repo**",
                   buttons=[Button.url("REPO", url="https://github.com/PrajjuS/ProjectFizilion")],
           )
