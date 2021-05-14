@@ -95,7 +95,7 @@ async def start_all(e):
 async def start(e):
     userid = await e.client(GetFullUserRequest(e.sender_id))
     await e.reply(file=ALIVE_LOGO,
-                  text=alive_text,
+                  alive_text,
                   buttons=[
                           [Button.inline("TESTBUTTON", data="test")],
                           [
@@ -107,7 +107,7 @@ async def start(e):
 async def back(e):
     userid = await e.client(GetFullUserRequest(e.sender_id))
     await e.reply(file=ALIVE+LOGO,
-                  text=alive_text,
+                  alive_text,
                   buttons=[
                           [Button.inline("TESTBUTTON", data="test")],
                           [
