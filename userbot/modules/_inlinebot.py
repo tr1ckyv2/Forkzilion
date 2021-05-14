@@ -84,7 +84,7 @@ async def get_readable_time(seconds: int) -> str:
 async def start_all(e):
         userid = e.chat_id
         if userid == OWNER_ID:
-                await inlinebot.send_file(e.chat_id, ALIVE_LOGO, alive_text)
+                await inlinebot.send_message(e.chat_id, ".")
                 await start(e)
         
         else:
