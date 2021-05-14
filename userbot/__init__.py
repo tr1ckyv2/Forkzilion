@@ -149,7 +149,7 @@ TIMEOUT = sb(os.environ.get("TIMEOUT") or "True")
 # TG BOT TOKEN AND BOT USERNAME
 BOT_TOKEN = os.environ.get("BOT_TOKEN") or None
 BOT_USERNAME = os.environ.get("BOT_USERNAME") or None
-OWNER_ID = os.environ.get("OWNER_ID") or None
+OWNER_ID = int(os.environ.get("OWNER_ID") or None)
 
 # Time & Date - Country and Time Zone
 COUNTRY = str(os.environ.get("COUNTRY") or "")
