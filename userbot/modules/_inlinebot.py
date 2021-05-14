@@ -87,7 +87,7 @@ async def start_all(e):
                 await inlinebot.start(e.chat_id)
         
         else:
-                await inlinebot.send_message(e.chat_id, ".")
+                await inlinebot.send_message(e.chat_id, "**You are not authorised to use me.**")
                 await unauthorised(e)
         
                 
@@ -120,7 +120,11 @@ async def test(e):
     )    
 
 async def unauthorised(e):
-    await e.reply("You Are not Authorised")
+    await e.reply("__Deploy your own Bot here.__"
+                 buttons=[
+                         [Button.inline("REPO", url="https://github.com/PrajjuS/ProjectFizilion"],
+                                        ] 
+                 )
   
 ## CALLBACKS
 @inlinebot.on(events.callbackquery.CallbackQuery(data=re.compile(b"test(.*)")))
