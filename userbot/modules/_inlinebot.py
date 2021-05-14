@@ -87,9 +87,7 @@ async def start_all(e):
                 await inlinebot.start(e.chat_id)
         
         else:
-                await inlinebot.reply(e.chat_id, "**You are not authorised to use me.\nDeploy your own bot here**",
-                                             [Button.url("REPO", url="https://github.com/PrajjuS/ProjectFizilion")],
-                                            )
+                await inlinebot.reply(e.chat_id, "**You are not authorised to use me.**")
         
                 
 async def start(e):
@@ -121,10 +119,8 @@ async def test(e):
     )    
 
 async def unauthorised(e):
-    await e.reply("__Deploy your own Bot here.__",
-                 buttons=[
-                         [Button.url("REPO", url="https://github.com/PrajjuS/ProjectFizilion")],
-                                        ] 
+    await e.reply("**Deploy your own Bot here.**",
+                  [Button.url("REPO", url="https://github.com/PrajjuS/ProjectFizilion")],
                  )
   
 ## CALLBACKS
