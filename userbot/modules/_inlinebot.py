@@ -98,7 +98,7 @@ async def start(e):
                   buttons=[
                           [Button.url("REPO", url="https://github.com/PrajjuS/ProjectFizilion")],
                           [
-                                  Button.url("MASTER", url=f"t.me/{userid.username}"),
+                                  Button.url("MASTER", url=f"t.me/{userid.user.username}"),
                                 ],
                           ],
                   )
@@ -109,7 +109,7 @@ async def back(e):
                   buttons=[
                           [Button.url("REPO", url="https://github.com/PrajjuS/ProjectFizilion")],
                           [
-                                  Button.url("MASTER", url=f"t.me/{userid.username}"),
+                                  Button.url("MASTER", url=f"t.me/{userid.user.username}"),
                                 ],
                           ],
                   ) 
