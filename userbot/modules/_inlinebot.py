@@ -87,8 +87,9 @@ async def start_all(e):
                 await inlinebot.start(e.chat_id)
         
         else:
-                await inlinebot.send_message(e.chat_id, "**You are not authorised to use me.**")
-                await unauthorised(e)
+                await inlinebot.send_message(e.chat_id, "**You are not authorised to use me.\nDeploy your own bot here**",
+                                             [Button.url("REPO", url="https://github.com/PrajjuS/ProjectFizilion")],
+                                            )
         
                 
 async def start(e):
