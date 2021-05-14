@@ -133,6 +133,6 @@ async def handler(event):
           await event.answer([alive, r1, r2])
     else:
           notmaster = builder.photo(file="resources/IMG_20201109_130207_262.jpg",'REPO', text="**Click here to open Fizilion Bot's Github Repo**",
-                                     buttons=[Button.url("REPO", url="https://github.com/PrajjuS/ProjectFizilion")]
-                                     )
+                                     buttons=[Button.url("REPO", url="https://github.com/PrajjuS/ProjectFizilion")],
+                                   )
           await event.answer([notmaster])    
