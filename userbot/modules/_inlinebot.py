@@ -84,17 +84,16 @@ async def get_readable_time(seconds: int) -> str:
 async def start_all(e):
         userid = e.chat_id
         if userid == OWNER_ID:
-                await inlinebot.send_message(e.chat_id, "YES BOSS")
                 await start(e)
         
         else:
-                await inlinebot.send_message(e.chat_id, "You are not my boss but proceed anyway")  
-                await start(e)
+                await unauthorised(e)
         
                 
 async def start(e):
     userid = await e.client(GetFullUserRequest(e.sender_id))
-    await e.reply(alive_text,
+    await e.reply(ALIVE_LOGO,
+                  alive_text,
                   buttons=[
                           [Button.inline("TESTBUTTON", data="test")],
                           [
@@ -105,7 +104,8 @@ async def start(e):
         
 async def back(e):
     userid = await e.client(GetFullUserRequest(e.sender_id))
-    await e.reply(alive_text,
+    await e.reply(ALIVE_LOGO,
+                  alive_text,
                   buttons=[
                           [Button.inline("TESTBUTTON", data="test")],
                           [
@@ -119,6 +119,9 @@ async def test(e):
         "SUCCESSFULLY TESTED",
         buttons=[Button.inline("TEST TO GO BACK", data="back")],
     )    
+
+async def unauthorised(e):
+    await e.reply("You Are not Authorised")
   
 ## CALLBACKS
 @inlinebot.on(events.callbackquery.CallbackQuery(data=re.compile(b"test(.*)")))
