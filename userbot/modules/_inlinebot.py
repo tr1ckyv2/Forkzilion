@@ -133,9 +133,8 @@ async def handler(event):
           await event.answer([alive, r1, r2])
     else:
           notmaster = builder.article(
-                  title="REPO",thumb ="resources/IMG_20201109_130207_262.jpg",
+                  title="REPO",thumb="resources/IMG_20201109_130207_262.jpg",
                   text="**Click here to open Fizilion Bot's Github Repo**",
-                  url="https://github.com/PrajjuS/ProjectFizilion",
                   buttons=[Button.url("REPO", url="https://github.com/PrajjuS/ProjectFizilion")],
           )
           await event.answer([notmaster])    
