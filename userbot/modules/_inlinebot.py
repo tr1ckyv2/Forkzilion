@@ -137,7 +137,6 @@ async def handler(event):
                   description="Deploy your own Fizilion Userbot",
                   text="**Click here to open Fizilion Bot's Github Repo**",
                   url="https://github.com/PrajjuS/ProjectFizilion",
-                  contact="ok",
                   buttons=[Button.url("REPO", url="https://github.com/PrajjuS/ProjectFizilion")],
           )
           await event.answer([notmaster])    
