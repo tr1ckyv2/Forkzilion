@@ -132,7 +132,7 @@ async def handler(event):
           r2 = builder.article('2. TEST', text="TEST HELP2")
           await event.answer([alive, r1, r2])
     else:
-          notmaster = builder.doccument(
+          notmaster = builder.document(
                   "REPO",file ="resources/IMG_20201109_130207_262.jpg", 
                   text="**Click here to open Fizilion Bot's Github Repo**",
                   buttons=[Button.url("REPO", url="https://github.com/PrajjuS/ProjectFizilion")],
