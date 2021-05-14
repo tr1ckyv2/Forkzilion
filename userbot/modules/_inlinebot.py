@@ -122,7 +122,7 @@ async def test(e):
 async def unauthorised(e):
     await e.reply("__Deploy your own Bot here.__",
                  buttons=[
-                         [Button.url("REPO", url="https://github.com/PrajjuS/ProjectFizilion"],
+                         [Button.url("REPO", url="https://github.com/PrajjuS/ProjectFizilion")],
                                         ] 
                  )
   
