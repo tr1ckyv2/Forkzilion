@@ -84,20 +84,21 @@ async def get_readable_time(seconds: int) -> str:
 async def start_all(e):
         userid = e.chat_id
         if userid == OWNER_ID:
-                await inlinebot.start(e.chat_id)
+                await inlinebot.send_message(e.chat_id,"")
+                await start(e)
         
         else:
                 await inlinebot.send_message(e.chat_id, "**You are not authorised to use me.**")
-                await start(e)
+                await unauthorised(e)
         
                 
 async def start(e):
     userid = await e.client(GetFullUserRequest(e.sender_id))
     await e.reply(alive_text,
                   buttons=[
-                          [Button.inline("TESTBUTTON", data="test")],
+                          [Button.url("REPO", url="https://github.com/PrajjuS/ProjectFizilion")],
                           [
-                                  Button.url("MASTER", url=f"t.me/{BOT_USERNAME}"),
+                                  Button.url("MASTER", url=f"t.me/{userid.username}"),
                                 ],
                           ],
                   )
@@ -106,18 +107,12 @@ async def back(e):
     userid = await e.client(GetFullUserRequest(e.sender_id))
     await e.reply(alive_text,
                   buttons=[
-                          [Button.inline("TESTBUTTON", data="test")],
+                          [Button.url("REPO", url="https://github.com/PrajjuS/ProjectFizilion")],
                           [
-                                  Button.url("MASTER", url=f"t.me/{BOT_USERNAME}"),
+                                  Button.url("MASTER", url=f"t.me/{userid.username}"),
                                 ],
                           ],
-                  )
-        
-async def test(e):
-    await e.edit(
-        "SUCCESSFULLY TESTED",
-        buttons=[Button.inline("TEST TO GO BACK", data="back")],
-    )    
+                  ) 
 
 async def unauthorised(e):
     await e.reply("**Deploy your own Bot here.**",
