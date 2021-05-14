@@ -111,7 +111,7 @@ async def unauthorised(e):
     
 @inlinebot.on(events.InlineQuery)
 async def handler(event):
-    userid = event.query.user_id    
+    userid = await event.client(GetFullUserRequest(e.query_id))
     builder = event.builder   
     if event.query.user_id == OWNER_ID:
           query = event.text
