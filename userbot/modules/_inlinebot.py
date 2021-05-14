@@ -96,7 +96,7 @@ async def start(e):
     userid = await e.client(GetFullUserRequest(e.sender_id))
     await e.reply(alive_text,
                   buttons=[
-                          [Button.url("REPO", url="https://github.com/PrajjuS/ProjectFizilion")], [Button.url("MASTER", url=f"t.me/{userid.user.username}"),],
+                          [Button.url("REPO", url="https://github.com/PrajjuS/ProjectFizilion"), Button.url("MASTER", url=f"t.me/{userid.user.username}"),],
                           [Button.url("ADD ME TO GROUP", url=f"http://t.me/{BOT_USERNAME}?startgroup=start")]
                           ],
                   )
