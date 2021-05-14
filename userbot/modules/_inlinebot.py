@@ -107,19 +107,11 @@ async def unauthorised(e):
                   buttons=[
                           [Button.url("REPO", url="https://github.com/PrajjuS/ProjectFizilion")],
                   ]
-                 )
-  
-## CALLBACKS
-@inlinebot.on(events.callbackquery.CallbackQuery(data=re.compile(b"test(.*)")))
-async def _(e):
-    await test(e)
-    
-@inlinebot.on(events.callbackquery.CallbackQuery(data=re.compile(b"back(.*)")))
-async def _(e):
-    await back(e)    
+                 )   
     
 @inlinebot.on(events.InlineQuery)
 async def handler(event):
+    userid = event.query.user_id    
     builder = event.builder   
     if event.query.user_id == OWNER_ID:
           query = event.text
@@ -129,11 +121,11 @@ async def handler(event):
                 text=alive_text,
                 buttons=[
                     [
-                        Button.inline("BUTTON1", data="one"),
-                        Button.inline("BUTTON2", data="two"),
+                        Button.url("REPO", url="https://github.com/PrajjuS/ProjectFizilion"),
+                        Button.url("MASTER", url=f"t.me/{userid.user.username}"),
                     ],
-                    [Button.inline("BUTTTON3", data="three")],
-                    [Button.inline("BUTTON4", data="four")],
+                    [Button.url("ADD ME TO GROUP", url=f"http://t.me/{BOT_USERNAME}?startgroup=start")],
+                    [Button.inline("HELP", data="four")],
                 ],
             )
           r1 = builder.article('1. TEST', text="TEST HELP")
