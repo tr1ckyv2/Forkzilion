@@ -84,8 +84,8 @@ async def get_readable_time(seconds: int) -> str:
 async def start_all(e):
         userid = e.chat_id
         if userid == OWNER_ID:
-                await inlinebot.send_message(e.chat_id, "YES BOSS")
-                await start(e)
+                
+                await e.start
         
         else:
                 await inlinebot.send_message(e.chat_id, ".")
@@ -94,8 +94,7 @@ async def start_all(e):
                 
 async def start(e):
     userid = await e.client(GetFullUserRequest(e.sender_id))
-    await e.reply(ALIVE_LOGO,
-                  alive_text,
+    await e.reply(alive_text,
                   buttons=[
                           [Button.inline("TESTBUTTON", data="test")],
                           [
@@ -106,8 +105,7 @@ async def start(e):
         
 async def back(e):
     userid = await e.client(GetFullUserRequest(e.sender_id))
-    await e.reply(ALIVE_LOGO,
-                  alive_text,
+    await e.reply(alive_text,
                   buttons=[
                           [Button.inline("TESTBUTTON", data="test")],
                           [
