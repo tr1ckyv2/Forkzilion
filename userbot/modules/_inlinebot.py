@@ -88,6 +88,7 @@ async def start_all(e):
         
         else:
                 await inlinebot.send_message(e.chat_id, "**You are not authorised to use me.**")
+                await start(e)
         
                 
 async def start(e):
