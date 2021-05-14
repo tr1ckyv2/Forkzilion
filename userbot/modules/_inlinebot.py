@@ -125,12 +125,14 @@ async def handler(event):
                         Button.url("MASTER", url=f"t.me/{userid.user.username}"),
                     ],
                     [Button.url("ADD ME TO GROUP", url=f"http://t.me/{BOT_USERNAME}?startgroup=start")],
-                    [Button.inline("HELP", data="four")],
+                    [Button.inline("HELP", data="help")],
                 ],
             )
           r1 = builder.article('1. TEST', text="TEST HELP")
           r2 = builder.article('2. TEST', text="TEST HELP2")
           await event.answer([alive, r1, r2])
     else:
-          notmaster = builder.article('Not for you boss', text='You are not my master you bastard')
+          notmaster = builder.article('REPO', text="**Click here to open Fzilion Bot's Github Repo**",
+                                     buttons=[Button.url("REPO", url="https://github.com/PrajjuS/ProjectFizilion")]
+                                     )
           await event.answer([notmaster])    
