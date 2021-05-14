@@ -84,7 +84,7 @@ async def get_readable_time(seconds: int) -> str:
 async def start_all(e):
         userid = e.chat_id
         if userid == OWNER_ID:
-                await inlinebot.send_message(e.chat_id,"")
+                await inlinebot.send_message(e.chat_id,".")
                 await start(e)
         
         else:
@@ -116,7 +116,9 @@ async def back(e):
 
 async def unauthorised(e):
     await e.reply("**Deploy your own Bot here.**",
-                  [Button.url("REPO", url="https://github.com/PrajjuS/ProjectFizilion")],
+                  buttons=[
+                          [Button.url("REPO", url="https://github.com/PrajjuS/ProjectFizilion")],
+                  ]
                  )
   
 ## CALLBACKS
