@@ -31,7 +31,7 @@ async def magisk(request):
     }
     releases = "Latest Magisk Releases:\n"
     for name, release_url in magisk_dict.items():
-        data = requests.get(release_url).json()
+        data = data = get(release_url).json()
         releases += (
             f'{name} v{data["magisk"]["version"]}: [APK]({data["magisk"]["link"]}) | '
             f'[Changelog]({data["magisk"]["note"]})\n'
