@@ -116,7 +116,7 @@ async def handler(event):
     if event.query.user_id == OWNER_ID:
           query = event.text
           uptime = await get_readable_time((time.time() - StartTime))  
-          alive = builder.photo(
+          alive = builder.document(
                   title="Alive",
                   file=ALIVE_LOGO,
                   include_media=True,
