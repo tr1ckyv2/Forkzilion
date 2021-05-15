@@ -117,23 +117,22 @@ async def handler(event):
           query = event.text
           uptime = await get_readable_time((time.time() - StartTime))  
           alive = builder.photo(
-                file=ALIVE_LOGO,
-                text=alive_text,
-                buttons=[
-                    [
-                        Button.url("REPO", url="https://github.com/PrajjuS/ProjectFizilion"),
-                        Button.url("MASTER", url=f"t.me/{userid.user.username}"),
-                    ],
-                    [Button.url("ADD ME TO GROUP", url=f"http://t.me/{BOT_USERNAME}?startgroup=start")],
-                    [Button.inline("HELP", data="help")],
-                ],
-            )
-          r1 = builder.article('1. TEST', text="TEST HELP")
-          r2 = builder.article('2. TEST', text="TEST HELP2")
-          await event.answer([alive, r1, r2])
+                  "Alive"
+                  file=ALIVE_LOGO,
+                  text=alive_text,
+                  buttons=[
+                          [
+                                  Button.url("REPO", url="https://github.com/PrajjuS/ProjectFizilion"),
+                                  Button.url("MASTER", url=f"t.me/{userid.user.username}"),
+                                  ],
+                          [Button.url("ADD ME TO GROUP", url=f"http://t.me/{BOT_USERNAME}?startgroup=start")],
+                          [Button.inline("HELP", data="help")],
+                          ],
+                  )
+          await event.answer([alive])
     else:
           notmaster = builder.article(
-                  title="REPO",
+                  title="Repo",
                   description="Setup your own Fizlion Userbot",
                   text="**Click here to open Fizilion Bot's Github Repo**",
                   link_preview=True,
