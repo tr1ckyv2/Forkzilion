@@ -117,7 +117,7 @@ async def handler(event):
           query = event.text
           uptime = await get_readable_time((time.time() - StartTime))  
           alive = builder.photo(
-                  "Alive"
+                  "Alive",
                   file=ALIVE_LOGO,
                   text=alive_text,
                   buttons=[
