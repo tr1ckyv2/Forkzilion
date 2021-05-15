@@ -33,7 +33,7 @@ async def magisk(request):
     for name, release_url in magisk_dict.items():
         data = data = get(release_url).json()
         releases += (
-            f'{name}: f'[APK v{data["app"]["version"]}]({data["app"]["link"]}) | '
+            f'{name}: [APK v{data["app"]["version"]}]({data["app"]["link"]}) | '
             f'[Changelog]({data["magisk"]["note"]})\n'
         )
     await request.edit(releases)
