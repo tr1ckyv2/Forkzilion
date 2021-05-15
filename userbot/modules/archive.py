@@ -424,4 +424,5 @@ CMD_HELP.update(
          \n\n>`.untar reply to a .tar file`\
          \nUsage: untar the replied .tar file.\
 "
+    }
 )
