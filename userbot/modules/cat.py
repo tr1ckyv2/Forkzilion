@@ -9,7 +9,7 @@ from userbot import CMD_HELP
 @register(pattern=r"^\.cat$", outgoing=True)
 async def cats(event):
     await event.edit("`Processing...`")
-    CAT_GIF = await get_cat_gif(event.client, "@meowkingdom")
+    CAT_GIF = await get_cat_gif(event.client, "@ProjectFizilionFonts")
     await event.client.send_file(
         CAT_GIF,
         event.chat_id,
