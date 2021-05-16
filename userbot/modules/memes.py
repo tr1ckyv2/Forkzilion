@@ -1137,7 +1137,26 @@ async def moon(moone):
     except BaseException:
         return
 
-
+@register(outgoing=True, pattern="^.test(?: |$)(.*)")
+async def haha(event):
+    textx = await event.get_reply_message()
+    message = event.pattern_match.group(1)
+    if message:
+        pass
+    elif textx:
+        message = textx.text
+    else:
+        await owo.edit("` No text given! `")
+        return                  
+    deq = deque(list(f"{text}"))
+    try:
+        for x in range(32):
+            await sleep(0.1)
+            await event.edit("".join(deq))
+            deq.rotate(1)
+    except BaseException:
+        return
+                      
 @register(outgoing=True, pattern="^.earth$")
 async def earth(event):
     deq = deque(list("🌏🌍🌎🌎🌍🌏🌍🌎"))
