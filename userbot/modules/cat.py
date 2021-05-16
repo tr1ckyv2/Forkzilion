@@ -11,9 +11,10 @@ async def cats(event):
     await event.edit("`Processing...`")
     CAT_GIF = await get_cat_gif(event.client, "@meowkingdom")
     await event.client.send_file(
+        CAT_GIF,
         event.chat_id,
         reply_to=event.message.reply_to_msg_id,
-        CAT_GIF,)
+    )
     # cleanup
     try:
         os.remove(CAT_GIF)
