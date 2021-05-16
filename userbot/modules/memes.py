@@ -1148,7 +1148,7 @@ async def haha(event):
     else:
         await owo.edit("` No text given! `")
         return                  
-    deq = deque(list(f"{text}"))
+    deq = deque(list(f"{textx}"))
     try:
         for x in range(32):
             await sleep(0.1)
