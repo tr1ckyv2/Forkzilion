@@ -4,7 +4,6 @@ import random
 from telethon.tl.types import InputMessagesFilterDocument
 
 from userbot.events import register
-from userbot.utils import edit_or_reply
 from userbot import CMD_HELP 
 
 @register(pattern=r"^\.cat$", outgoing=True)
@@ -14,8 +13,7 @@ async def cats(event):
     await event.client.send_file(
         event.chat_id,
         reply_to=event.message.reply_to_msg_id,
-        CAT_GIF,
-    )
+        CAT_GIF,)
     # cleanup
     try:
         os.remove(CAT_GIF)
