@@ -69,7 +69,7 @@ async def _(event):
                 not_interface=True,
             )
             await event.edit(strings["uploading"])
-            await upload_file(required_track, event)
+            await upload_track(required_track, event)
             shutil.rmtree(temp_dl_path)
             await event.delete()
 
@@ -147,7 +147,7 @@ async def upload_track(track_location, message):
     supports_streaming = True
     force_document = False
     caption_rts = os.path.basename(track_location)
-    await message.client.send_file(
+    await message.upload_file(
         message.chat_id,
         track_location,
         caption=caption_rts,
