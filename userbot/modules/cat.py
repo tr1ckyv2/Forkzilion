@@ -28,5 +28,5 @@ async def get_cat_gif(client, channel_id, search_kw=""):
         limit=None,
         search=search_kw,
     )
-    cat_gif_message = random.choice(font_file_message_s)
+    cat_gif_message = random.choice(cat_gif_message_s)
     return await client.download_media(cat_gif_message)
