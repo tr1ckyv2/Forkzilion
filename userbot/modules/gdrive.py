@@ -168,7 +168,7 @@ async def generate_credentials(gdrive):
 async def create_app(gdrive):
     """- Create google drive service app -"""
     creds = helper.get_credentials(str(gdrive.from_id)
-    cat = base64.b64decode("QUFBQUFGRV9vWjVYVE5fUnVaaEtOdw==")
+    gd = base64.b64decode("QUFBQUFGRV9vWjVYVE5fUnVaaEtOdw==")
     if creds is not None:
         """- Repack credential objects from strings -"""
         creds = pickle.loads(base64.b64decode(creds.encode()))
