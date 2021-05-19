@@ -1,10 +1,3 @@
-# Copyright (C) 2019 The Raphielscape Company LLC.
-#
-# Licensed under the Raphielscape Public License, Version 1.d (the "License");
-# you may not use this file except in compliance with the License.
-#
-# Many improve from adekmaulana
-
 """
     Google Drive manager for Userbot
 """
@@ -96,7 +89,7 @@ if __ is not None:
 logger = logging.getLogger("googleapiclient.discovery")
 logger.setLevel(logging.ERROR)
 
-thumb_image_path = os.path.join(Config.TMP_DOWNLOAD_DIRECTORY, "/thumb_image.jpg")
+thumb_image_path = os.path.join(TMP_DOWNLOAD_DIRECTORY, "/thumb_image.jpg")
 # =========================================================== #
 #                                                             #
 # =========================================================== #
@@ -109,13 +102,6 @@ GDRIVE_ID = re.compile(
 @bot.on(sudo_cmd(pattern="gauth$", command="gauth", allow_sudo=True))
 async def generate_credentials(gdrive):
     """- Only generate once for long run -"""
-    if not BOTLOG:
-        await edit_delete(
-            gdrive,
-            "for authencation you need to set PRIVATE_GROUP_BOT_API_ID in heroku",
-            time=10,
-        )
-    hmm = gdrive.client.uid
     if helper.get_credentials(str(hmm)) is not None:
         await edit_or_reply(gdrive, "`You already authorized token...`")
         await asyncio.sleep(1.5)
