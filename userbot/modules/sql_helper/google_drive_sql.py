@@ -1,46 +1,46 @@
 from userbot.modules.sql_helper import SESSION, BASE
-from sqlalchemy import Column, String, Text
+from sqlalchemy import Column, String
 
 
-class GoogleDriveCreds(BASE):
-    __tablename__ = 'gdrive'
-    user = Column(String, primary_key=True)
-    credentials = Column(Text, nullable=False)
+class Gdrive(BASE):
+    __tablename__ = "gdrive"
+    user = Column(String(50), primary_key=True)
 
-    def __init__(self, user):
+    def __init__(self, cat):
         self.user = user
 
 
-GoogleDriveCreds.__table__.create(checkfirst=True)
+Gdrive.__table__.create(checkfirst=True)
 
 
-def save_credentials(user, credentials):
-    saved_credentials = SESSION.query(GoogleDriveCreds).get(user)
-    if not saved_credentials:
-        saved_credentials = GoogleDriveCreds(user)
-
-    saved_credentials.credentials = credentials
-
-    SESSION.add(saved_credentials)
-    SESSION.commit()
-    return True
-
-
-def get_credentials(user):
+def is_folder(folder_id):
     try:
-        saved_credentials = SESSION.query(GoogleDriveCreds).get(user)
-        creds = None
-
-        if saved_credentials is not None:
-            creds = saved_credentials.credentials
-        return creds
+        return SESSION.query(Gdrive).filter(Gdrive.user == str(folder_id))
+    except BaseException:
+        return None
     finally:
         SESSION.close()
 
 
-def clear_credentials(user):
-    saved_credentials = SESSION.query(GoogleDriveCreds).get(user)
-    if saved_credentials:
-        SESSION.delete(saved_credentials)
-        SESSION.commit()
-        return True
+def gparent_id(folder_id):
+    adder = SESSION.query(Gdrive).get(folder_id)
+    if not adder:
+        adder = Gdrive(folder_id)
+    SESSION.add(adder)
+    SESSION.commit()
+
+
+def get_parent_id():
+    try:
+        return SESSION.query(Gdrive).all()
+    except BaseException:
+        return None
+    finally:
+        SESSION.close()
+
+
+def rmparent_id(folder_id):
+    note = SESSION.query(Gdrive).filter(Gdrive.user == folder_id)
+    if note:
+        note.delete()
+        SESSION.commit(
