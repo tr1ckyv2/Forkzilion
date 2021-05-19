@@ -43,7 +43,7 @@ from userbot.utils import (
     time_formatter,
 )
 import userbot.modules.sql_helper.google_drive_sql as helper
-import userbot.utils
+from userbot.utils import edit_or_delete, edit_or_reply
 from userbot.events import register
 # =========================================================== #
 #                          STATIC                             #
