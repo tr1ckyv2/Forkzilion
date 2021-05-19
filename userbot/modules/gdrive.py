@@ -34,6 +34,7 @@ from userbot import (
     G_DRIVE_FOLDER_ID,
     LOGS,
     TEMP_DOWNLOAD_DIRECTORY,
+    CMD_HELP,
 )
 from userbot.utils import (
     CancelProcess,
