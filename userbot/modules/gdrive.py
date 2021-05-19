@@ -255,11 +255,11 @@ async def download(event, gdrive, service, uri=None):
         try:
             from .torrentutils import aria2, check_metadata
 
-            cattorrent = True
+            torrent = True
         except Exception:
-            cattorrent = False
-        full_path = os.path.join(os.getcwd(), TMP_DOWNLOAD_DIRECTORY)
-        if cattorrent:
+            torrent = False
+        full_path = os.path.join(os.getcwd(), TEMP_DOWNLOAD_DIRECTORY)
+        if torrent:
             LOGS.info("torrentutils exists")
             if os.path.isfile(uri) and uri.endswith(".torrent"):
                 downloads = aria2.add_torrent(
@@ -274,115 +274,10 @@ async def download(event, gdrive, service, uri=None):
             LOGS.info("No torrentutils")
             await edit_or_reply(
                 gdrive,
-                "`To use torrent files or download files from link install torrentutils from` @catplugins",
+                "`No support for torrent files`",
             )
-            return "install torrentutils"
-        from .torrentutils import aria2, check_metadata
-
-        gid = downloads.gid
-        filename = await check_progress_for_dl(gdrive, gid, previous=None)
-        file = aria2.get_download(gid)
-        if file.followed_by_ids:
-            new_gid = await check_metadata(gid)
-            filename = await check_progress_for_dl(gdrive, new_gid, previous=None)
-        try:
-            required_file_name = os.path.join(TMP_DOWNLOAD_DIRECTORY, filenames)
-        except Exception:
-            required_file_name = os.path.join(TMP_DOWNLOAD_DIRECTORY, filename)
-    else:
-        try:
-            current_time = time.time()
-            is_cancelled = False
-            downloaded_file_name = await event.client.download_media(
-                await event.get_reply_message(),
-                TMP_DOWNLOAD_DIRECTORY,
-                progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
-                    progress(
-                        d,
-                        t,
-                        gdrive,
-                        current_time,
-                        "[FILE - DOWNLOAD]",
-                        is_cancelled=is_cancelled,
-                    )
-                ),
-            )
-        except CancelProcess:
-            names = [
-                os.path.join(TMP_DOWNLOAD_DIRECTORY, name)
-                for name in os.listdir(TMP_DOWNLOAD_DIRECTORY)
-            ]
-
-            """ asumming newest files are the cancelled one """
-            newest = max(names, key=os.path.getctime)
-            os.remove(newest)
-            reply += (
-                "**FILE - CANCELLED**\n\n"
-                "**Status : **`OK - received signal cancelled.`"
-            )
-            return reply
-        else:
-            required_file_name = downloaded_file_name
-    try:
-        file_name = await get_raw_name(required_file_name)
-    except AttributeError:
-        reply += "**[ENTRY - ERROR]**\n\n" "**Status : **`BAD`\n"
-        return reply
-    mimeType = await get_mimeType(required_file_name)
-    try:
-        status = "[FILE - UPLOAD]"
-        if os.path.isfile(required_file_name):
-            try:
-                result = await upload(
-                    gdrive, service, required_file_name, file_name, mimeType
-                )
-            except CancelProcess:
-                reply += (
-                    "**[FILE - CANCELLED]**\n\n"
-                    "**Status : **`OK - received signal cancelled.`"
-                )
-                return reply
-            else:
-                end = datetime.now()
-                ms = (end - start).seconds
-                reply += (
-                    f"**File Uploaded in **`{ms} seconds`\n\n"
-                    f"**➥ Size : **`{humanbytes(result[0])}`\n"
-                    f"**➥ Link :** [{file_name}]({result[1]})\n"
-                )
-                return reply
-        else:
-            status = status.replace("[FILE", "[FOLDER")
-            global parent_Id
-            folder = await create_dir(service, file_name)
-            parent_Id = folder.get("id")
-            webViewURL = "https://drive.google.com/drive/folders/" + parent_Id
-            try:
-                await task_directory(gdrive, service, required_file_name)
-            except CancelProcess:
-                reply += (
-                    "**[FOLDER - CANCELLED]**\n\n"
-                    "**Status : **`OK - received signal cancelled.`"
-                )
-                await reset_parentId()
-                return reply
-            except Exception:
-                await reset_parentId()
-            else:
-                reply += (
-                    f"**{status}**\n\n"
-                    f"[{file_name}]({webViewURL})\n"
-                    "**Status : **`OK - Successfully uploaded.`\n\n"
-                )
-                await reset_parentId()
-                return reply
-    except Exception as e:
-        status = status.replace("DOWNLOAD]", "ERROR]")
-        reply += (
-            f"**{status}**\n\n" "**Status : **`failed`\n" f"**Reason : **`{str(e)}`\n\n"
-        )
-        return reply
-
+            return 
+ 
 
 async def list_drive_dir(service, file_id):
     query = f"'{file_id}' in parents and (name contains '*')"
@@ -513,7 +408,7 @@ async def gdrive_download(event, gdrive, service, uri):
             file_name = re.search(
                 "filename='(.)'", download.headers["Content-Disposition"]
             ).group(1)
-            file_path = os.path.join(TMP_DOWNLOAD_DIRECTORY, file_name)
+            file_path = os.path.join(TEMP_DOWNLOAD_DIRECTORY, file_name)
             with io.FileIO(file_path, "wb") as files:
                 CHUNK_SIZE = None
                 current_time = time.time()
@@ -556,7 +451,7 @@ async def gdrive_download(event, gdrive, service, uri):
         mimeType = file.get("mimeType")
         if mimeType == "application/vnd.google-apps.folder":
             return "Aborting, folder download not support...", "Error"
-        file_path = os.path.join(TMP_DOWNLOAD_DIRECTORY, file_name)
+        file_path = os.path.join(TEMP_DOWNLOAD_DIRECTORY, file_name)
         request = service.files().get_media(fileId=file_Id, supportsAllDrives=True)
         with io.FileIO(file_path, "wb") as df:
             downloader = MediaIoBaseDownload(df, request)
@@ -1515,7 +1410,7 @@ async def check_progress_for_dl(event, gid, previous):
                 await event.edit(
                     f"**Name : **`{file.name}`\n"
                     f"**Size : **`{file.total_length_string()}`\n"
-                    f"**Path : **`{os.path.join(TMP_DOWNLOAD_DIRECTORY , file.name)}`\n"
+                    f"**Path : **`{os.path.join(TEMP_DOWNLOAD_DIRECTORY , file.name)}`\n"
                     "**Resp : **`OK - Successfully downloaded...`"
                 )
                 LOGS.info(file.name)
