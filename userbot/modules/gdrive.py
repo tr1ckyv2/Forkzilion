@@ -89,7 +89,7 @@ if __ is not None:
 logger = logging.getLogger("googleapiclient.discovery")
 logger.setLevel(logging.ERROR)
 
-thumb_image_path = os.path.join(TMP_DOWNLOAD_DIRECTORY, "/thumb_image.jpg")
+thumb_image_path = os.path.join(TEMP_DOWNLOAD_DIRECTORY, "/thumb_image.jpg")
 # =========================================================== #
 #                                                             #
 # =========================================================== #
