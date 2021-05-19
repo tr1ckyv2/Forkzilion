@@ -192,7 +192,7 @@ async def create_app(gdrive):
     return build("drive", "v3", credentials=creds, cache_discovery=False)
 
 
-@register(pattern="^.gdauth(?: |$)", outgoing=True)
+@register(pattern="^.gdreset(?: |$)", outgoing=True)
 async def reset_credentials(gdrive):
     """- Reset credentials or change account -"""
     gdrive = await edit_or_reply(gdrive, "`Resetting information...`")
