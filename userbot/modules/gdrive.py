@@ -48,7 +48,7 @@ from userbot.utils import (
     progress,
     time_formatter,
 )
-from userbot.sql_helper import google_drive_sql as helper
+from userbot.modules.sql_helper import google_drive_sql as helper
 import userbot.utils
 
 # =========================================================== #
