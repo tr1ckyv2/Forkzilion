@@ -1475,21 +1475,8 @@ async def g_download(event):
         return await edit_delete(catevent, file_name)
     if os.path.exists(thumb_image_path):
         thumb = thumb_image_path
-    if not cmd:
         await catevent.edit("**File Downloaded.\nName : **`" + str(file_name) + "`")
-    else:
-        c_time = time.time()
-        await event.client.send_file(
-            event.chat_id,
-            file_name,
-            caption=f"**File Name : **`{os.path.basename(file_name)}`",
-            thumb=thumb,
-            force_document=False,
-            supports_streaming=True,
-            progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
-                progress(d, t, catevent, c_time, "Uploading...", file_name)
-            ),
-        )
+        
         os.remove(file_name)
         await edit_delete(
             catevent,
