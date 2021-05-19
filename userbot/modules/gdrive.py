@@ -1457,7 +1457,7 @@ async def check_progress_for_dl(event, gid, previous):
                 )
 
 
-@register(pattern="^.gdown (?: |$)(.*)", outgoing=True)
+@register(pattern="^.(gdown|gdown -u)(.*)", outgoing=True)
 async def g_download(event):
     if event.fwd_from:
         return
