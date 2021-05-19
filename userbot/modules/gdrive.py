@@ -41,7 +41,7 @@ from userbot.utils import (
     progress,
     time_formatter,
 )
-from userbot.modules.sql_helper import google_drive_sql as helper
+import userbot.modules.sql_helper.google_drive_sql as helper
 import userbot.utils
 
 # =========================================================== #
@@ -98,8 +98,7 @@ GDRIVE_ID = re.compile(
 )
 
 
-@bot.on(admin_cmd(pattern="gauth$", command="gauth", outgoing=True))
-@bot.on(sudo_cmd(pattern="gauth$", command="gauth", allow_sudo=True))
+@register(pattern="^.gdauth(?: |$)", outgoing=True)
 async def generate_credentials(gdrive):
     """- Only generate once for long run -"""
     if helper.get_credentials(str(hmm)) is not None:
@@ -192,8 +191,7 @@ async def create_app(gdrive):
     return build("drive", "v3", credentials=creds, cache_discovery=False)
 
 
-@bot.on(admin_cmd(pattern="greset$", command="greset", outgoing=True))
-@bot.on(sudo_cmd(pattern="greset$", command="greset", allow_sudo=True))
+@register(pattern="^.gdauth(?: |$)", outgoing=True)
 async def reset_credentials(gdrive):
     """- Reset credentials or change account -"""
     hmm = bot.uid
@@ -873,38 +871,16 @@ async def lists(gdrive):
     )
 
 
-@bot.on(
-    admin_cmd(
-        pattern=r"glist(?: |$)(-l \d+)?(?: |$)?(.*)?(?: |$)",
-        command="glist",
-        outgoing=True,
-    )
-)
-@bot.on(
-    sudo_cmd(
-        pattern="glist(?: |$)(-l \d+)?(?: |$)?(.*)?(?: |$)",
-        command="glist",
-        allow_sudo=True,
-    )
-)
-async def catlists(gdrive):
+@register(pattern=r"^.gdlist(?: |$)(-l \d+)?(?: |$)?(.*)?(?: |$)", outgoing=True)
+async def lists(gdrive):
+    await gdrive.edit("`Getting information...`")
     await lists(gdrive)
 
 
-@bot.on(
-    admin_cmd(
-        pattern="gdf (mkdir|rm|chck) (.*)", command="gdf (mkdir|rm|chck)", outgoing=True
-    )
-)
-@bot.on(
-    sudo_cmd(
-        pattern="gdf (mkdir|rm|chck) (.*)",
-        command="gdf (mkdir|rm|chck)",
-        allow_sudo=True,
-    )
-)
+@register(pattern="^.gdf (mkdir|rm|chck) (.*)", outgoing=True)
 async def google_drive_managers(gdrive):
     """- Google Drive folder/file management -"""
+    await gdrive.edit("`Sending information...`")
     service = await create_app(gdrive)
     if service is False:
         return None
@@ -1058,8 +1034,8 @@ async def google_drive_managers(gdrive):
     await gdrive.edit(reply)
 
 
-@bot.on(admin_cmd(pattern="gabort$", command="gabort", outgoing=True))
-@bot.on(sudo_cmd(pattern="gabort$", command="gabort", allow_sudo=True))
+
+@register(pattern="^.gdabort(?: |$)", outgoing=True)
 async def cancel_process(gdrive):
     """
     Abort process for download and upload
@@ -1080,8 +1056,7 @@ async def cancel_process(gdrive):
     await gdrive.delete()
 
 
-@bot.on(admin_cmd(pattern="ugd(?: |$)(.*)", command="ugd", outgoing=True))
-@bot.on(sudo_cmd(pattern="ugd(?: |$)(.*)", command="ugd", allow_sudo=True))
+@register(pattern="^.gd(?: |$)(.*)", outgoing=True)
 async def google_drive(gdrive):
     reply = ""
     """ - Parsing all google drive function - """
@@ -1256,20 +1231,7 @@ async def google_drive(gdrive):
     return
 
 
-@bot.on(
-    admin_cmd(
-        pattern="(gdfset|gdfclear)(?: |$)(.*)",
-        command="(gdfset|gdfclear)",
-        outgoing=True,
-    )
-)
-@bot.on(
-    sudo_cmd(
-        pattern="(gdfset|gdfclear)(?: |$)(.*)",
-        command="(gdfset|gdfclear)",
-        allow_sudo=True,
-    )
-)
+@register(pattern="^.(gdfset|gdfclear)(?: |$)(.*)", outgoing=True)
 async def set_upload_folder(gdrive):
     """- Set parents dir for upload/check/makedir/remove -"""
     global parent_Id
@@ -1415,12 +1377,7 @@ async def check_progress_for_dl(event, gid, previous):
                 )
 
 
-@bot.on(
-    admin_cmd(pattern="gdown ?(-u)? (.*)", command="(gdown|gdown -u)", outgoing=True)
-)
-@bot.on(
-    sudo_cmd(pattern="gdown ?(-u)? (.*)", command="(gdown|gdown -u)", allow_sudo=True)
-)
+@register(pattern="^.gdown (?: |$)(.*)", outgoing=True)
 async def g_download(event):
     if event.fwd_from:
         return
@@ -1461,8 +1418,7 @@ async def g_download(event):
         )
 
 
-@bot.on(admin_cmd(pattern="gshare (.*)", command="gshare"))
-@bot.on(sudo_cmd(pattern="gshare (.*)", command="gshare", allow_sudo=True))
+@register(pattern="^.gshare (?: |$)(.*)", outgoing=True)
 async def gshare(event):
     if event.fwd_from:
         return
