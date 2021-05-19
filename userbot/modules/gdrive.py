@@ -43,7 +43,7 @@ from userbot.utils import (
 )
 import userbot.modules.sql_helper.google_drive_sql as helper
 import userbot.utils
-
+from userbot.events import register
 # =========================================================== #
 #                          STATIC                             #
 # =========================================================== #
