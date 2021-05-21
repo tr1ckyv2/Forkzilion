@@ -848,16 +848,17 @@ async def get_output(service, file_id):
     return out
 
 
+@register(pattern=r"^.gdlist(?: |$)(-l \d+)?(?: |$)?(.*)?(?: |$)", outgoing=True)
 async def lists(gdrive):
+    await gdrive.edit("`Getting information...`")
     checker = gdrive.pattern_match.group(1)
     if checker is not None:
         page_size = int(gdrive.pattern_match.group(1).strip("-l "))
         if page_size > 1000:
-            await edit_or_reply(
-                gdrive,
-                "**GDRIVE - LIST**\n\n"
-                "**Status : **`BAD`\n"
-                "**Reason : **`can't get list if limit more than 1000.`",
+            await gdrive.edit(
+                "`[GDRIVE - LIST]`\n\n"
+                "`Status` : **BAD**\n"
+                "`Reason` : can't get list if limit more than 1000."
             )
             return
     else:
@@ -866,7 +867,6 @@ async def lists(gdrive):
     if checker != "":
         if checker.startswith("-p"):
             parents = checker.split(None, 2)[1]
-            parents = parents.split("/")[-1]
             try:
                 name = checker.split(None, 2)[2]
             except IndexError:
@@ -882,15 +882,7 @@ async def lists(gdrive):
                 name = checker
                 query = f"name contains '{name}'"
     else:
-        global parent_Id
-        try:
-            if parent_Id is not None:
-                query = f"'{parent_Id}' in parents and (name contains '*')"
-        except NameError:
-            if G_DRIVE_FOLDER_ID is not None:
-                query = f"'{G_DRIVE_FOLDER_ID}' in parents and (name contains '*')"
-            else:
-                query = ""
+        query = ""
     service = await create_app(gdrive)
     if service is False:
         return False
@@ -916,11 +908,8 @@ async def lists(gdrive):
                 .execute()
             )
         except HttpError as e:
-            await edit_or_reply(
-                gdrive,
-                "**[GDRIVE - LIST]**\n\n"
-                "**Status : **`BAD`\n"
-                f"**Reason : **`{str(e)}`",
+            await gdrive.edit(
+                "`[GDRIVE - LIST]`\n\n" "`Status` : **BAD**\n" f"`Reason` : {str(e)}"
             )
             return
         for files in response.get("files", []):
@@ -945,15 +934,18 @@ async def lists(gdrive):
     del result
     if query == "":
         query = "Not specified"
-    await edit_or_reply(
-        gdrive, "**Google Drive Query**:\n" f"`{query}`\n\n**Results**\n\n{message}"
-    )
-
-
-@register(pattern=r"^.gdlist(?: |$)(-l \d+)?(?: |$)?(.*)?(?: |$)", outgoing=True)
-async def gdrivelists(gdrive):
-    await gdrive.edit("`Getting information...`")
-    await lists(gdrive)
+    if len(message) > 4096:
+        await gdrive.edit("`Result is too big, sending it as file...`")
+        with open("result.txt", "w") as r:
+            r.write(f"Google Drive Query:\n{query}\n\nResults\n\n{message}")
+        await gdrive.client.send_file(
+            gdrive.chat_id, "result.txt", caption="Google Drive Query List."
+        )
+    else:
+        await gdrive.edit(
+            "**Google Drive Query**:\n" f"`{query}`\n\n**Results**\n\n{message}"
+        )
+    return
 
 
 @register(pattern="^.gdf (mkdir|rm|chck) (.*)", outgoing=True)
@@ -1457,7 +1449,7 @@ async def check_progress_for_dl(event, gid, previous):
                 )
 
 
-@register(pattern="^.(gdown|gdown -u)(.*)", outgoing=True)
+@register(pattern="^.gdown(.*)", outgoing=True)
 async def g_download(event):
     if event.fwd_from:
         return
@@ -1527,6 +1519,8 @@ CMD_HELP.update(
         "\n\n.gdfset rm"
         "\nUsage: remove set parentId from cmd\n.gdfset put "
         "into **G_DRIVE_FOLDER_ID** and if empty upload will go to root."
+        "\n\n.gdown"
+        "\nUsage: Download files to userbot server from drive link."
         "\n\nNOTE:"
         "\nfor .gdlist you can combine -l and -p flags with or without name "
         "at the same time, it must be `-l` flags first before use `-p` flags.\n"
