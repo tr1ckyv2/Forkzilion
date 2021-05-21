@@ -1453,7 +1453,7 @@ async def g_download(event):
         return None
     thumb = None
     cmd = event.pattern_match.group(1)
-    drive_link = event.pattern_match.group(2)
+    drive_link = event.pattern_match.group(1)
     catevent = await edit_or_reply(
         event, "`Downloading Requested File from G-Drive...`"
     )
