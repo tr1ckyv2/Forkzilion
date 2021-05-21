@@ -26,7 +26,7 @@ from googleapiclient.http import MediaFileUpload, MediaIoBaseDownload
 from telethon import events
 from os.path import isdir, isfile, join
 
-from userbot.modules.aria import aria2
+from userbot.modules.aria import aria2, check_metadata, check_progress_for_dl
 from userbot import (
     BOTLOG,
     BOTLOG_CHATID,
@@ -224,7 +224,7 @@ async def get_file_id(input_str):
 
 
 async def download(gdrive, service, uri=None):
-    global is_cancelled
+global is_cancelled
     reply = ""
     """ - Download files to local then upload - """
     if not isdir(TEMP_DOWNLOAD_DIRECTORY):
@@ -232,8 +232,13 @@ async def download(gdrive, service, uri=None):
         required_file_name = None
     if uri:
         full_path = os.getcwd() + TEMP_DOWNLOAD_DIRECTORY.strip(".")
-        uri = [uri]
-        downloads = aria2.add_uris(uri, options={"dir": full_path}, position=None)
+        if isfile(uri) and uri.endswith(".torrent"):
+            downloads = aria2.add_torrent(
+                uri, uris=None, options={"dir": full_path}, position=None
+            )
+        else:
+            uri = [uri]
+            downloads = aria2.add_uris(uri, options={"dir": full_path}, position=None)
         gid = downloads.gid
         await check_progress_for_dl(gdrive, gid, previous=None)
         file = aria2.get_download(gid)
