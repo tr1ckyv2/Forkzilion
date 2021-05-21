@@ -224,7 +224,7 @@ async def get_file_id(input_str):
 
 
 async def download(gdrive, service, uri=None):
-global is_cancelled
+    global is_cancelled
     reply = ""
     """ - Download files to local then upload - """
     if not isdir(TEMP_DOWNLOAD_DIRECTORY):
