@@ -77,9 +77,17 @@ if __ is not None:
                     G_DRIVE_FOLDER_ID = __.split("folderview?id=")[1]
                 except IndexError:
                     if "http://" not in __ or "https://" not in __:
-                        _1 = any(map(str.isdigit, __))
-                        _2 = "-" in __ or "_" in __
-                        if True not in [_1 or _2]:
+                        if any(map(str.isdigit, __)):
+                            _1 = True
+                        else:
+                            _1 = False
+                        if "-" in __ or "_" in __:
+                            _2 = True
+                        else:
+                            _2 = False
+                        if True in [_1 or _2]:
+                            pass
+                        else:
                             LOGS.info("G_DRIVE_FOLDER_ID " "not a valid ID...")
                             G_DRIVE_FOLDER_ID = None
                     else:
@@ -90,21 +98,16 @@ if __ is not None:
 # =========================================================== #
 logger = logging.getLogger("googleapiclient.discovery")
 logger.setLevel(logging.ERROR)
-
-thumb_image_path = os.path.join(TEMP_DOWNLOAD_DIRECTORY, "/thumb_image.jpg")
 # =========================================================== #
 #                                                             #
 # =========================================================== #
-GDRIVE_ID = re.compile(
-    r"https://drive.google.com/[\w\?\./&=]+([-\w]{33}|(?<=[/=])0(?:A[-\w]{17}|B[-\w]{26}))"
-)
 
 
 @register(pattern="^.gdauth(?: |$)", outgoing=True)
 async def generate_credentials(gdrive):
-    """- Only generate once for long run -"""
+    """ - Only generate once for long run - """
     if helper.get_credentials(str(gdrive.from_id)) is not None:
-        await edit_or_reply(gdrive, "`You already authorized token...`")
+        await gdrive.edit("`You already authorized token...`")
         await asyncio.sleep(1.5)
         await gdrive.delete()
         return False
@@ -113,21 +116,20 @@ async def generate_credentials(gdrive):
         try:
             configs = json.loads(G_DRIVE_DATA)
         except json.JSONDecodeError:
-            await edit_or_reply(
-                gdrive,
-                "**AUTHENTICATE - ERROR**\n\n"
-                "**Status : **`BAD`\n"
-                "**Reason : **`G_DRIVE_DATA entity is not valid!`",
+            await gdrive.edit(
+                "`[AUTHENTICATE - ERROR]`\n\n"
+                "`Status` : **BAD**\n"
+                "`Reason` : **G_DRIVE_DATA** entity is not valid!"
             )
             return False
     else:
-        """- Only for old user -"""
+        """ - Only for old user - """
         if G_DRIVE_CLIENT_ID is None and G_DRIVE_CLIENT_SECRET is None:
-            await edit_or_reply(
-                gdrive,
-                "**AUTHENTICATE - ERROR**\n\n"
-                "**Status : **`BAD`\n"
-                "**Reason : **`please get your G_DRIVE_DATA`",
+            await gdrive.edit(
+                "`[AUTHENTICATE - ERROR]`\n\n"
+                "`Status` : **BAD**\n"
+                "`Reason` : please get your **G_DRIVE_DATA** "
+                "[here](https://telegra.ph/How-To-Setup-Google-Drive-04-03)"
             )
             return False
         configs = {
@@ -138,14 +140,12 @@ async def generate_credentials(gdrive):
                 "token_uri": GOOGLE_TOKEN_URI,
             }
         }
-    gdrive = await edit_or_reply(gdrive, "`Creating credentials...`")
+    await gdrive.edit("`Creating credentials...`")
     flow = InstalledAppFlow.from_client_config(
         configs, SCOPES, redirect_uri=REDIRECT_URI
     )
     auth_url, _ = flow.authorization_url(access_type="offline", prompt="consent")
-    msg = await gdrive.respond(
-        "`Go to your Private log group to authenticate token...`"
-    )
+    msg = await gdrive.respond("`Go to your BOTLOG group to authenticate token...`")
     async with gdrive.client.conversation(BOTLOG_CHATID) as conv:
         url_msg = await conv.send_message(
             "Please go to this URL:\n" f"{auth_url}\nauthorize then reply the code"
@@ -161,17 +161,16 @@ async def generate_credentials(gdrive):
         """ - Unpack credential objects into strings - """
         creds = base64.b64encode(pickle.dumps(creds)).decode()
         await gdrive.edit("`Credentials created...`")
-    helper.save_credentials(str(gdrive.sender_id), creds)
+    helper.save_credentials(str(gdrive.from_id), creds)
     await gdrive.delete()
     return
 
 
 async def create_app(gdrive):
-    """- Create google drive service app -"""
+    """ - Create google drive service app - """
     creds = helper.get_credentials(str(gdrive.from_id))
-    gd = base64.b64decode("QUFBQUFGRV9vWjVYVE5fUnVaaEtOdw==")
     if creds is not None:
-        """- Repack credential objects from strings -"""
+        """ - Repack credential objects from strings - """
         creds = pickle.loads(base64.b64decode(creds.encode()))
     if not creds or not creds.valid:
         if creds and creds.expired and creds.refresh_token:
@@ -184,12 +183,8 @@ async def create_app(gdrive):
         else:
             await gdrive.edit("`Credentials is empty, please generate it...`")
             return False
-    try:
-        gd = Get(gd)
-        await gdrive.client(gd)
-    except BaseException:
-        pass
-    return build("drive", "v3", credentials=creds, cache_discovery=False)
+    service = build("drive", "v3", credentials=creds, cache_discovery=False)
+    return service
 
 
 @register(pattern="^.gdreset(?: |$)", outgoing=True)
