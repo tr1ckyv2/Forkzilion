@@ -449,6 +449,19 @@ async def copy_file(service, file_id, dir_id):
     return drive_file["id"]
 
 
+async def get_information(service, Id):
+    return (
+        service.files()
+        .get(
+            fileId=Id,
+            fields="name, id, size, mimeType, "
+            "webViewLink, webContentLink,"
+            "description",
+            supportsAllDrives=True,
+        )
+        .execute()
+    )
+
 async def copy_dir(service, file_id, dir_id):
     files = await list_drive_dir(service, file_id)
     if len(files) == 0:
