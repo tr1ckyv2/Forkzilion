@@ -557,9 +557,10 @@ async def gdrive_download(event, gdrive, service, uri):
 
 async def download_gdrive(gdrive, service, uri):
     reply = ""
-    start = datetime.now()
     global is_cancelled
     """ - remove drivesdk and export=download from link - """
+    if not isdir(TEMP_DOWNLOAD_DIRECTORY):
+        os.mkdir(TEMP_DOWNLOAD_DIRECTORY)
     if "&export=download" in uri:
         uri = uri.split("&export=download")[0]
     elif "file/d/" in uri and "/view" in uri:
@@ -578,167 +579,193 @@ async def download_gdrive(gdrive, service, uri):
                         1
                     ]
                 except IndexError:
-                    """- if error parse in url, assume given value is Id -"""
+                    """ - if error parse in url, assume given value is Id - """
                     file_Id = uri
-    file_Id, _ = await get_file_id(file_Id)
-    global parent_Id
     try:
-        if parent_Id is not None:
-            dir_id = parent_Id
-    except NameError:
-        dir_id = G_DRIVE_FOLDER_ID if G_DRIVE_FOLDER_ID is not None else []
-    try:
-        file = (
-            service.files()
-            .get(fileId=file_Id, fields="name, mimeType", supportsTeamDrives=True)
-            .execute()
-        )
-        if file["mimeType"] == "application/vnd.google-apps.folder":
-            folder = await create_dir(service, file["name"])
-            dir_id = folder.get("id")
-            await copy_dir(service, file_Id, dir_id)
-            end = datetime.now()
-            ms = (end - start).seconds
-            reply = (
-                f"**Folder successfully copied in** `{ms} seconds`\n\n"
-                f"**Link : **[{file['name']}]({folder['webViewLink']})"
-            )
-        else:
-            ret_id = await copy_file(service, file_Id, dir_id)
-            end = datetime.now()
-            ms = (end - start).seconds
-            reply = (
-                f"**File successfully copied in** `{ms} seconds`\n\n"
-                f"**Link : **[link](https://drive.google.com/open?id={ret_id})"
-            )
+        file = await get_information(service, file_Id)
     except HttpError as e:
-        reply = f"**Error : **`{str(e)}`"
-    return reply
+        if "404" in str(e):
+            drive = "https://drive.google.com"
+            url = f"{drive}/uc?export=download&id={file_Id}"
 
+            session = requests.session()
+            download = session.get(url, stream=True)
 
-async def change_permission(service, Id):
-    permission = {"role": "reader", "type": "anyone"}
-    try:
-        service.permissions().create(fileId=Id, body=permission).execute()
-    except HttpError as e:
-        """it's not possible to change permission per file for teamdrive"""
-        if f'"File not found: {Id}."' in str(e) or (
-            '"Sharing folders that are inside a shared drive is not supported."'
-            in str(e)
-        ):
-            return
-        else:
-            raise e
-    return
+            try:
+                download.headers["Content-Disposition"]
+            except KeyError:
+                page = BeautifulSoup(download.content, "lxml")
+                try:
+                    export = drive + page.find("a", {"id": "uc-download-link"}).get(
+                        "href"
+                    )
+                except AttributeError:
+                    try:
+                        error = (
+                            page.find("p", {"class": "uc-error-caption"}).text
+                            + "\n"
+                            + page.find("p", {"class": "uc-error-subcaption"}).text
+                        )
+                    except Exception:
+                        reply += (
+                            "**[FILE - ERROR]**\n\n"
+                            "**Status :** BAD - failed to download.\n"
+                            "**Reason :** uncaught err."
+                        )
+                    else:
+                        reply += (
+                            "**[FILE - ERROR]**\n\n"
+                            "**Status :** BAD - failed to download.\n"
+                            f"**Reason :** {error}"
+                        )
+                    return reply
+                download = session.get(export, stream=True)
+                file_size = human_to_bytes(
+                    page.find("span", {"class": "uc-name-size"})
+                    .text.split()[-1]
+                    .strip("()")
+                )
+            else:
+                file_size = int(download.headers["Content-Length"])
 
+            file_name = re.search(
+                'filename="(.*)"', download.headers["Content-Disposition"]
+            ).group(1)
+            file_path = TEMP_DOWNLOAD_DIRECTORY + file_name
+            with io.FileIO(file_path, "wb") as files:
+                CHUNK_SIZE = None
+                current_time = time.time()
+                display_message = None
+                first = True
+                is_cancelled = False
+                for chunk in download.iter_content(CHUNK_SIZE):
+                    if is_cancelled is True:
+                        raise CancelProcess
 
-async def get_information(service, Id):
-    return (
-        service.files()
-        .get(
-            fileId=Id,
-            fields="name, id, size, mimeType, "
-            "webViewLink, webContentLink,"
-            "description",
-            supportsAllDrives=True,
-        )
-        .execute()
+                    if not chunk:
+                        break
+
+                    diff = time.time() - current_time
+                    if first is True:
+                        downloaded = len(chunk)
+                        first = False
+                    else:
+                        downloaded += len(chunk)
+                    percentage = downloaded / file_size * 100
+                    speed = round(downloaded / diff, 2)
+                    eta = round((file_size - downloaded) / speed)
+                    prog_str = "`Downloading` | [{0}{1}] `{2}%`".format(
+                        "".join(["▰" for i in range(math.floor(percentage / 10))]),
+                        "".join(["▱" for i in range(10 - math.floor(percentage / 10))]),
+                        round(percentage, 2),
+                    )
+                    current_message = (
+                        "**File downloading**\n\n"
+                        f"**Name : **`{file_name}`\n"
+                        f"**Status**\n{prog_str}\n"
+                        f"`{humanbytes(downloaded)} of {humanbytes(file_size)}`"
+                        f" @ {humanbytes(speed)}`\n"
+                        f"**ETA :** `{time_formatter(eta)}`"
+                    )
+                    if (
+                        round(diff % 15.00) == 0
+                        and (display_message != current_message)
+                        or (downloaded == file_size)
+                    ):
+                        await gdrive.edit(current_message)
+                        display_message = current_message
+                    files.write(chunk)
+    else:
+        file_name = file.get("name")
+        mimeType = file.get("mimeType")
+        if mimeType == "application/vnd.google-apps.folder":
+            await gdrive.edit("`Aborting, folder download not support...`")
+            return False
+        file_path = TEMP_DOWNLOAD_DIRECTORY + file_name
+        request = service.files().get_media(fileId=file_Id, supportsAllDrives=True)
+        with io.FileIO(file_path, "wb") as df:
+            downloader = MediaIoBaseDownload(df, request)
+            complete = False
+            is_cancelled = False
+            current_time = time.time()
+            display_message = None
+            while complete is False:
+                if is_cancelled is True:
+                    raise CancelProcess
+
+                status, complete = downloader.next_chunk()
+                if status:
+                    file_size = status.total_size
+                    diff = time.time() - current_time
+                    downloaded = status.resumable_progress
+                    percentage = downloaded / file_size * 100
+                    speed = round(downloaded / diff, 2)
+                    eta = round((file_size - downloaded) / speed)
+                    prog_str = "`Downloading` | [{0}{1}] `{2}%`".format(
+                        "".join(["▰" for i in range(math.floor(percentage / 10))]),
+                        "".join(["▱" for i in range(10 - math.floor(percentage / 10))]),
+                        round(percentage, 2),
+                    )
+                    current_message = (
+                        "**File downloading**\n\n"
+                        f"**Name : **`{file_name}`\n"
+                        f"**Status**\n{prog_str}\n"
+                        f"`{humanbytes(downloaded)} of {humanbytes(file_size)}`"
+                        f" @ {humanbytes(speed)}`\n"
+                        f"**ETA :** `{time_formatter(eta)}`"
+                    )
+                    if (
+                        round(diff % 15.00) == 0
+                        and (display_message != current_message)
+                        or (downloaded == file_size)
+                    ):
+                        await gdrive.edit(current_message)
+                        display_message = current_message
+    await gdrive.edit(
+        "**[FILE - DOWNLOAD]**\n\n"
+        f"**Name   :** `{file_name}`\n"
+        f"**Size   :** `{humanbytes(file_size)}`\n"
+        f"**Path   :** `{file_path}`\n"
+        "**Status :` **OK** - Successfully downloaded."
     )
-
-
-async def create_dir(service, folder_name, dir_id=None):
-    metadata = {
-        "name": folder_name,
-        "mimeType": "application/vnd.google-apps.folder",
-    }
-    if not dir_id:
+    msg = await gdrive.respond("`Answer the question in your BOTLOG group`")
+    async with gdrive.client.conversation(BOTLOG_CHATID) as conv:
+        ask = await conv.send_message("`Proceed with mirroring? [y/N]`")
         try:
-            if parent_Id is not None:
-                pass
-        except NameError:
-            """- Fallback to G_DRIVE_FOLDER_ID else root dir -"""
-            if G_DRIVE_FOLDER_ID is not None:
-                metadata["parents"] = [G_DRIVE_FOLDER_ID]
+            r = conv.wait_event(events.NewMessage(outgoing=True, chats=BOTLOG_CHATID))
+            r = await r
+        except Exception:
+            ans = "N"
         else:
-            """- Override G_DRIVE_FOLDER_ID because parent_Id not empty -"""
-            metadata["parents"] = [parent_Id]
-    else:
-        metadata["parents"] = [dir_id]
-    folder = (
-        service.files()
-        .create(body=metadata, fields="id, webViewLink", supportsAllDrives=True)
-        .execute()
-    )
-    await change_permission(service, folder.get("id"))
-    return folder
-
-
-async def upload(gdrive, service, file_path, file_name, mimeType):
-    try:
-        await gdrive.edit("`Processing upload...`")
-    except Exception as e:
-        LOGS.info(str(e))
-    body = {
-        "name": file_name,
-        "description": "Uploaded from Telegram using Catuserbot.",
-        "mimeType": mimeType,
-    }
-    try:
-        if parent_Id is not None:
-            pass
-    except NameError:
-        """- Fallback to G_DRIVE_FOLDER_ID else root dir -"""
-        if G_DRIVE_FOLDER_ID is not None:
-            body["parents"] = [G_DRIVE_FOLDER_ID]
-    else:
-        """- Override G_DRIVE_FOLDER_ID because parent_Id not empty -"""
-        body["parents"] = [parent_Id]
-    media_body = MediaFileUpload(file_path, mimetype=mimeType, resumable=True)
-    """ - Start upload process - """
-    file = service.files().create(
-        body=body,
-        media_body=media_body,
-        fields="id, size, webContentLink",
-        supportsAllDrives=True,
-    )
-    global is_cancelled
-    current_time = time.time()
-    response = None
-    display_message = None
-    is_cancelled = False
-    while response is None:
-        if is_cancelled is True:
-            raise CancelProcess
-        status, response = file.next_chunk()
-        if status:
-            file_size = status.total_size
-            diff = time.time() - current_time
-            uploaded = status.resumable_progress
-            percentage = uploaded / file_size * 100
-            speed = round(uploaded / diff, 2)
-            eta = round((file_size - uploaded) / speed)
-            prog_str = "`Uploading :`\n`[{0}{1}] {2}`".format(
-                "".join(["▰" for i in range(math.floor(percentage / 10))]),
-                "".join(["▱" for i in range(10 - math.floor(percentage / 10))]),
-                round(percentage, 2),
+            ans = r.message.message.strip()
+            await gdrive.client.delete_messages(BOTLOG_CHATID, r.id)
+        await gdrive.client.delete_messages(gdrive.chat_id, msg.id)
+        await gdrive.client.delete_messages(BOTLOG_CHATID, ask.id)
+    if ans.capitalize() == "N":
+        return reply
+    elif ans.capitalize() == "Y":
+        try:
+            result = await upload(gdrive, service, file_path, file_name, mimeType)
+        except CancelProcess:
+            reply += (
+                "`[FILE - CANCELLED]`\n\n"
+                "`Status` : **OK** - received signal cancelled."
             )
-            current_message = (
-                "**Uploading **\n\n"
-                f"**Name : **`{file_name}`\n"
-                f"**Status : **\n{prog_str}\n"
-                f"`{humanbytes(uploaded)} of {humanbytes(file_size)} "
-                f"@ {humanbytes(speed)}`\n"
-                f"**ETA** -> `{time_formatter(eta)}`"
+        else:
+            reply += (
+                "**[FILE - DOWNLOAD]**\n\n"
+                f"**Name   :** `{file_name}`\n"
+                f"**Size   : **`{humanbytes(file_size)}`\n"
+                f"**Path   : **`{file_path}`\n"
+                "**Status : **OK - Successfully downloaded
             )
-            if display_message != current_message:
-                await gdrive.edit(current_message)
-                display_message = current_message
-    file_id = response.get("id")
-    file_size = response.get("size")
-    downloadURL = response.get("webContentLink")
-    """ - Change permission - """
-    await change_permission(service, file_id)
-    return int(file_size), downloadURL
+        return reply
+    else:
+        await gdrive.client.send_message(
+            BOTLOG_CHATID, "`Invalid answer type [Y/N] only...`"
+        )
+        return reply
+
 
 
 async def task_directory(gdrive, service, folder_path):
@@ -852,9 +879,9 @@ async def lists(gdrive):
         page_size = int(gdrive.pattern_match.group(1).strip("-l "))
         if page_size > 1000:
             await gdrive.edit(
-                "`[GDRIVE - LIST]`\n\n"
-                "`Status` : **BAD**\n"
-                "`Reason` : can't get list if limit more than 1000."
+                "**[GDRIVE - LIST]**\n\n"
+                "**Status :** BAD\n"
+                "**Reason :** can't get list if limit more than 1000."
             )
             return
     else:
@@ -905,7 +932,7 @@ async def lists(gdrive):
             )
         except HttpError as e:
             await gdrive.edit(
-                "`[GDRIVE - LIST]`\n\n" "`Status` : **BAD**\n" f"`Reason` : {str(e)}"
+                "**[GDRIVE - LIST]**\n\n" "**Status :** BAD\n" f"**Reason :** {str(e)}"
             )
             return
         for files in response.get("files", []):
@@ -933,7 +960,7 @@ async def lists(gdrive):
     if len(message) > 4096:
         await gdrive.edit("`Result is too big, sending it as file...`")
         with open("result.txt", "w") as r:
-            r.write(f"Google Drive Query:\n{query}\n\nResults\n\n{message}")
+            r.write(f"**Google Drive Query:**\n{query}\n\nResults\n\n{message}")
         await gdrive.client.send_file(
             gdrive.chat_id, "result.txt", caption="Google Drive Query List."
         )
@@ -1127,31 +1154,27 @@ async def cancel_process(gdrive):
 async def google_drive(gdrive):
     reply = ""
     """ - Parsing all google drive function - """
-    start = datetime.now()
     value = gdrive.pattern_match.group(1)
     file_path = None
     uri = None
     if not value and not gdrive.reply_to_msg_id:
-        return await edit_or_reply(gdrive, "`What should i Do You idiot`")
+        return None
     elif value and gdrive.reply_to_msg_id:
-        await edit_or_reply(
-            gdrive,
-            "**[UNKNOWN - ERROR]**\n\n"
-            "**Status : **`failed`\n"
-            "**Reason : **`Confused to upload file or the replied message/media.`",
+        await gdrive.edit(
+            "`[UNKNOWN - ERROR]`\n\n"
+            "`Status` : **failed**\n"
+            "`Reason` : Confused to upload file or the replied message/media."
         )
         return None
     service = await create_app(gdrive)
-    event = gdrive
     if service is False:
         return None
-    gdrive = await edit_or_reply(gdrive, "`Uploading...`")
-    if os.path.isfile(value):
+    if isfile(value):
         file_path = value
         if file_path.endswith(".torrent"):
             uri = [file_path]
             file_path = None
-    elif os.path.isdir(value):
+    elif isdir(value):
         folder_path = value
         global parent_Id
         folder_name = await get_raw_name(folder_path)
@@ -1161,9 +1184,9 @@ async def google_drive(gdrive):
         try:
             await task_directory(gdrive, service, folder_path)
         except CancelProcess:
-            await gdrive.edit(
-                "**[FOLDER - CANCELLED]**\n\n"
-                "**Status : **`OK - received signal cancelled.`"
+            await gdrive.respond(
+                "`[FOLDER - CANCELLED]`\n\n"
+                "`Status` : **OK** - received signal cancelled."
             )
             await reset_parentId()
             await gdrive.delete()
@@ -1171,9 +1194,9 @@ async def google_drive(gdrive):
         except Exception as e:
             await gdrive.edit(
                 "**[FOLDER - UPLOAD]**\n\n"
-                f"**Folder Name : **`{folder_name}`\n"
-                "**Status : **`BAD`\n"
-                f"**Reason : **`{str(e)}`"
+                f"`{folder_name}`\n"
+                "**Status :** BAD\n"
+                f"**Reason :** {str(e)}"
             )
             await reset_parentId()
             return False
@@ -1181,18 +1204,18 @@ async def google_drive(gdrive):
             await gdrive.edit(
                 "**[FOLDER - UPLOAD]**\n\n"
                 f"[{folder_name}]({webViewURL})\n"
-                "**Status : **`OK - Successfully uploaded.`\n\n"
+                "**Status :** OK - Successfully uploaded.\n\n"
             )
             await reset_parentId()
             return True
-    elif not value and event.reply_to_msg_id:
-        output = await download(event, gdrive, service)
-        reply += output
-        await gdrive.edit(reply, link_preview=False)
+    elif not value and gdrive.reply_to_msg_id:
+        reply += await download(gdrive, service)
+        await gdrive.respond(reply)
+        await gdrive.delete()
         return None
     else:
         if re.findall(r"\bhttps?://drive\.google\.com\S+", value):
-            """- Link is google drive fallback to download -"""
+            """ - Link is google drive fallback to download - """
             value = re.findall(r"\bhttps?://drive\.google\.com\S+", value)
             for uri in value:
                 try:
@@ -1200,80 +1223,88 @@ async def google_drive(gdrive):
                 except CancelProcess:
                     reply += (
                         "**[FILE - CANCELLED]**\n\n"
-                        "**Status : **`OK - received signal cancelled.`"
+                        "**Status :** OK - received signal cancelled."
                     )
                     break
                 except Exception as e:
                     reply += (
                         "**[FILE - ERROR]**\n\n"
-                        "**Status : **`BAD`\n"
-                        f"**Reason : **`{str(e)}`\n\n"
+                        "**Status :** BAD\n"
+                        f"**Reason :** {str(e)}\n\n"
                     )
                     continue
-            if not reply:
+            if reply:
+                await gdrive.respond(reply, link_preview=False)
+                await gdrive.delete()
+                return True
+            else:
                 return None
-            await gdrive.edit(reply, link_preview=False)
-            return True
         elif re.findall(r"\bhttps?://.*\.\S+", value) or "magnet:?" in value:
             uri = value.split()
         else:
             for fileId in value.split():
-                one = any(map(str.isdigit, fileId))
-                two = "-" in fileId or "_" in fileId
+                if any(map(str.isdigit, fileId)):
+                    one = True
+                else:
+                    one = False
+                if "-" in fileId or "_" in fileId:
+                    two = True
+                else:
+                    two = False
                 if True in [one or two]:
                     try:
                         reply += await download_gdrive(gdrive, service, fileId)
                     except CancelProcess:
                         reply += (
                             "**[FILE - CANCELLED]**\n\n"
-                            "**Status : **`OK - received signal cancelled.`"
+                            "**Status :** OK - received signal cancelled."
                         )
                         break
                     except Exception as e:
                         reply += (
                             "**[FILE - ERROR]**\n\n"
-                            "**Status : **`BAD`\n"
-                            f"**Reason : **`{str(e)}`\n\n"
+                            "**Status :** BAD\n"
+                            f"**Reason :** {str(e)}\n\n"
                         )
                         continue
-            if not reply:
+            if reply:
+                await gdrive.respond(reply, link_preview=False)
+                await gdrive.delete()
+                return True
+            else:
                 return None
-            await gdrive.edit(reply, link_preview=False)
-            return True
-        if not uri and not event.reply_to_msg_id:
+        if not uri and not gdrive.reply_to_msg_id:
             await gdrive.edit(
                 "**[VALUE - ERROR]**\n\n"
-                "**Status : **`BAD`\n"
-                "**Reason : **given value is not URL nor file/folder path. "
+                "**Status :** BAD\n"
+                "**Reason :** given value is not URL nor file/folder path. "
                 "If you think this is wrong, maybe you use .gd with multiple "
                 "value of files/folders, e.g `.gd <filename1> <filename2>` "
                 "for upload from files/folders path this doesn't support it."
             )
             return False
-    if uri and not event.reply_to_msg_id:
+    if uri and not gdrive.reply_to_msg_id:
         for dl in uri:
             try:
-                output = await download(event, gdrive, service, dl)
-                if output == "install torrentutils":
-                    return
-                reply += str(output)
+                reply += await download(gdrive, service, dl)
             except Exception as e:
                 if " not found" in str(e) or "'file'" in str(e):
                     reply += (
                         "**[FILE - CANCELLED]**\n\n"
-                        "**Status : **`OK - received signal cancelled.`"
+                        "**Status :** OK - received signal cancelled."
                     )
                     await asyncio.sleep(2.5)
                     break
                 else:
-                    """- if something bad happened, continue to next uri -"""
+                    """ - if something bad happened, continue to next uri - """
                     reply += (
                         "**[UNKNOWN - ERROR]**\n\n"
-                        "**Status : **`BAD`\n"
-                        f"**Reason : **`{dl}` | `{str(e)}`\n\n"
+                        "**Status` :** BAD\n"
+                        f"**Reason :** `{dl}` | `{str(e)}`\n\n"
                     )
                     continue
-        await gdrive.edit(reply, link_preview=False)
+        await gdrive.respond(reply, link_preview=False)
+        await gdrive.delete()
         return None
     mimeType = await get_mimeType(file_path)
     file_name = await get_raw_name(file_path)
@@ -1281,18 +1312,18 @@ async def google_drive(gdrive):
         result = await upload(gdrive, service, file_path, file_name, mimeType)
     except CancelProcess:
         gdrive.respond(
-            "**[FILE - CANCELLED]**\n\n"
-            "**Status : **`OK - received signal cancelled.`"
+            "**[FILE - CANCELLED]**\n\n" "**Status :** OK - received signal cancelled."
         )
-    end = datetime.now()
-    ms = (end - start).seconds
     if result:
-        await gdrive.edit(
-            f"**File Uploaded in **`{ms} seconds`\n\n"
-            f"**Size : **`{humanbytes(result[0])}`\n"
-            f"**Link :** [{file_name}]({result[1]})\n",
+        await gdrive.respond(
+            "**[FILE - UPLOAD]**\n\n"
+            f"**Name  :** `{file_name}`\n"
+            f"**Size  :** `{humanbytes(result[0])}`\n"
+            f"**Link  :** [{file_name}]({result[1]})\n"
+            "**Status :** OK - Successfully uploaded.\n",
             link_preview=False,
         )
+    await gdrive.delete()
     return
 
 @register(pattern="^.(gdfset|gdfclear)(?: |$)(.*)", outgoing=True)
@@ -1387,35 +1418,22 @@ async def g_download(event):
     thumb = None
     cmd = event.pattern_match.group(1)
     drive_link = event.pattern_match.group(1)
-    catevent = await edit_or_reply(
+    devent = await edit_or_reply(
         event, "`Downloading Requested File from G-Drive...`"
     )
-    file_name, catprocess = await gdrive_download(event, catevent, service, drive_link)
-    if catprocess is not None:
-        return await edit_delete(catevent, file_name)
+    file_name, process = await gdrive_download(event, devent, service, drive_link)
+    if process is not None:
+        return await edit_delete(devent, file_name)
     if os.path.exists(thumb_image_path):
         thumb = thumb_image_path
-        await catevent.edit("**File Downloaded.\nName : **`" + str(file_name) + "`")
+        await devent.edit("**File Downloaded.\nName : **`" + str(file_name) + "`")
         
         os.remove(file_name)
         await edit_delete(
-            catevent,
+            devent,
             "**File Downloaded and uploaded.\nName : **`" + str(file_name) + "`",
             5,
         )
-
-
-@register(pattern="^.gshare (?: |$)(.*)", outgoing=True)
-async def gshare(event):
-    if event.fwd_from:
-        return
-    service = await create_app(event)
-    if service is False:
-        return None
-    input_str = event.pattern_match.group(1)
-    event = await edit_or_reply(event, "`Creating sharable link...`")
-    await asyncio.sleep(2)
-    await share(service, event, input_str)
 
 
 
