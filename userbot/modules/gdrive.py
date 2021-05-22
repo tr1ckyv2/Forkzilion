@@ -452,8 +452,8 @@ async def gdrive_download(event, gdrive, service, uri):
                     else:
                         reply += (
                             "**[FILE - ERROR]**\n\n"
-                            "**Status : **BAD - failed to download.\n"
-                            f"**Reason : **`{error}`"
+                            "**Status  :** BAD - failed to download.\n"
+                            f"**Reason :** `{error}`"
                         )
                     return reply, "Error"
                 download = session.get(export, stream=True)
@@ -1161,9 +1161,9 @@ async def google_drive(gdrive):
         return None
     elif value and gdrive.reply_to_msg_id:
         await gdrive.edit(
-            "`[UNKNOWN - ERROR]`\n\n"
-            "`Status` : **failed**\n"
-            "`Reason` : Confused to upload file or the replied message/media."
+            "**[UNKNOWN - ERROR]**\n\n"
+            "**Status :** Failed\n"
+            "**Reason :** Confused to upload file or the replied message/media."
         )
         return None
     service = await create_app(gdrive)
@@ -1185,8 +1185,8 @@ async def google_drive(gdrive):
             await task_directory(gdrive, service, folder_path)
         except CancelProcess:
             await gdrive.respond(
-                "`[FOLDER - CANCELLED]`\n\n"
-                "`Status` : **OK** - received signal cancelled."
+                "**[FOLDER - CANCELLED]**\n\n"
+                "**Status :** OK - received signal cancelled."
             )
             await reset_parentId()
             await gdrive.delete()
