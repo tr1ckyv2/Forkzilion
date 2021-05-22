@@ -228,37 +228,11 @@ async def download(event, gdrive, service, uri=None):
     global is_cancelled
     reply = ""
     """ - Download files to local then upload - """
-    if not os.path.isdir(TMP_DOWNLOAD_DIRECTORY):
+    if not os.path.isdir(TEMP_DOWNLOAD_DIRECTORY):
         os.makedirs(TMP_DOWNLOAD_DIRECTORY)
         required_file_name = ""
     if uri:
-        try:
-            from .torrentutils import aria2, check_metadata
-
-            cattorrent = True
-        except Exception:
-            cattorrent = False
-        full_path = os.path.join(os.getcwd(), TMP_DOWNLOAD_DIRECTORY)
-        if cattorrent:
-            LOGS.info("torrentutils exists")
-            if os.path.isfile(uri) and uri.endswith(".torrent"):
-                downloads = aria2.add_torrent(
-                    uri, uris=None, options={"dir": full_path}, position=None
-                )
-            else:
-                uri = [uri]
-                downloads = aria2.add_uris(
-                    uri, options={"dir": full_path}, position=None
-                )
-        else:
-            LOGS.info("No torrentutils")
-            await edit_or_reply(
-                gdrive,
-                "`To use torrent files or download files from link install torrentutils from` @catplugins",
-            )
-            return "install torrentutils"
-        from .torrentutils import aria2, check_metadata
-
+        full_path = os.path.join(os.getcwd(), TEMP_DOWNLOAD_DIRECTORY)
         gid = downloads.gid
         filename = await check_progress_for_dl(gdrive, gid, previous=None)
         file = aria2.get_download(gid)
@@ -266,9 +240,9 @@ async def download(event, gdrive, service, uri=None):
             new_gid = await check_metadata(gid)
             filename = await check_progress_for_dl(gdrive, new_gid, previous=None)
         try:
-            required_file_name = os.path.join(TMP_DOWNLOAD_DIRECTORY, filenames)
+            required_file_name = os.path.join(TEMP_DOWNLOAD_DIRECTORY, filenames)
         except Exception:
-            required_file_name = os.path.join(TMP_DOWNLOAD_DIRECTORY, filename)
+            required_file_name = os.path.join(TEMP_DOWNLOAD_DIRECTORY, filename)
     else:
         try:
             current_time = time.time()
@@ -289,8 +263,8 @@ async def download(event, gdrive, service, uri=None):
             )
         except CancelProcess:
             names = [
-                os.path.join(TMP_DOWNLOAD_DIRECTORY, name)
-                for name in os.listdir(TMP_DOWNLOAD_DIRECTORY)
+                os.path.join(TEMP_DOWNLOAD_DIRECTORY, name)
+                for name in os.listdir(TEMP_DOWNLOAD_DIRECTORY)
             ]
 
             """ asumming newest files are the cancelled one """
