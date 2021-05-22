@@ -45,7 +45,6 @@ from userbot.utils import (
     time_formatter,
 )
 import userbot.modules.sql_helper.google_drive_sql as helper
-from userbot.modules.upload_download import download
 from userbot.utils import edit_or_reply, edit_delete
 from userbot.events import register
 # =========================================================== #
@@ -224,7 +223,7 @@ async def get_file_id(input_str):
         return link, "unknown"
 
 
-async def textdownload(event, gdrive, service, uri=None):
+async def download(event, gdrive, service, uri=None):
     start = datetime.now()
     global is_cancelled
     reply = ""
