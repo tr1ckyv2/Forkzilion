@@ -834,6 +834,21 @@ async def download_gdrive(gdrive, service, uri):
         )
         return reply
 
+    
+async def change_permission(service, Id):
+    permission = {"role": "reader", "type": "anyone"}
+    try:
+        service.permissions().create(fileId=Id, body=permission).execute()
+    except HttpError as e:
+        """it's not possible to change permission per file for teamdrive"""
+        if f'"File not found: {Id}."' in str(e) or (
+            '"Sharing folders that are inside a shared drive is not supported."'
+            in str(e)
+        ):
+            return
+        else:
+            raise e
+    return
 
 
 async def task_directory(gdrive, service, folder_path):
