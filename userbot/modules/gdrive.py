@@ -748,8 +748,8 @@ async def download_gdrive(gdrive, service, uri):
             result = await upload(gdrive, service, file_path, file_name, mimeType)
         except CancelProcess:
             reply += (
-                "`[FILE - CANCELLED]`\n\n"
-                "`Status` : **OK** - received signal cancelled."
+                "**[FILE - CANCELLED]**\n\n"
+                "**Status :** OK - received signal cancelled."
             )
         else:
             reply += (
@@ -757,7 +757,7 @@ async def download_gdrive(gdrive, service, uri):
                 f"**Name   :** `{file_name}`\n"
                 f"**Size   : **`{humanbytes(file_size)}`\n"
                 f"**Path   : **`{file_path}`\n"
-                "**Status : **OK - Successfully downloaded
+                "**Status  :** OK - Successfully downloaded."
             )
         return reply
     else:
