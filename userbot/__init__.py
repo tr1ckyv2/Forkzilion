@@ -85,6 +85,9 @@ if BOTLOG:
 else:
     LOGSPAMMER = False
     
+# See if app is running on Railway
+RAILWAY_GIT_REPO_NAME = os.environ.get("RAILWAY_GIT_REPO_NAME") or None
+
 # Bleep Blop, this is a bot ;)
 PM_AUTO_BAN = sb(os.environ.get("PM_AUTO_BAN") or "False")
 
