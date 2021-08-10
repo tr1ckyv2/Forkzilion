@@ -177,7 +177,7 @@ async def upstream(event):
 
     if changelog == "" and force_update is False:
         await event.edit(
-            f"\nYou are running the latest version of `Fizilion`\n"
+            f"\nYou are running the latest version of `Forkzilion`\n"
         )
         return repo.__del__()
 
