@@ -205,6 +205,7 @@ async def get_readable_time(seconds: int) -> str:
     return up_time
 
 # Global Variables
+COUNT_MSG = 0
 USERS = {}
 COUNT_PM = {}
 LASTMSG = {}
