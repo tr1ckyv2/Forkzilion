@@ -94,19 +94,19 @@ async def stats(event):
         unread += dialog.unread_count
     stop_time = time.time() - start_time
     full_name = inline_mention(await event.client.get_me())
-    response = f"📌 ✨ Stats for **{full_name}** ✨ \n\n"
-    response += f"✨ **Private Chats:** ✨ {private_chats} \n"
+    response = f"📌 ✨ Stats of **Master** ~ {full_name}** ✨ \n\n"
+    response += f"✨ **Private Chats:** {private_chats} ✨ \n"
     response += f"   ✨ `Users: {private_chats - bots}` ✨ \n"
     response += f"   ✨ `Bots: {bots}` ✨ \n"
-    response += f"✨ **Groups:** ✨ {groups} \n"
-    response += f"✨ **Channels:** ✨ {broadcast_channels} \n"
-    response += f"✨ **Admin in Groups:** ✨ {admin_in_groups} \n"
+    response += f"✨ **Groups:** {groups} ✨ \n"
+    response += f"✨ **Channels:** {broadcast_channels} ✨ \n"
+    response += f"✨ **Admin in Groups:** {admin_in_groups} ✨ \n"
     response += f"   ✨ `Creator: {creator_in_groups}` ✨ \n"
     response += f"   ✨ `Admin Rights: {admin_in_groups - creator_in_groups}` ✨ \n"
-    response += f"✨ **Admin in Channels:** ✨ {admin_in_broadcast_channels} \n"
+    response += f"✨ **Admin in Channels:** {admin_in_broadcast_channels} ✨ \n"
     response += f"   ✨ `Creator: {creator_in_channels}` ✨ \n"
     response += (
-        f"   ★ `Admin Rights: {admin_in_broadcast_channels - creator_in_channels}` \n"
+        f"   ✨ `Admin Rights: {admin_in_broadcast_channels - creator_in_channels}` ✨ \n"
     )
     response += f"**Unread:** {unread} \n"
     response += f"**Unread Mentions:** {unread_mentions} \n\n"
