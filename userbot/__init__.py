@@ -209,6 +209,8 @@ USERS = {}
 COUNT_PM = {}
 LASTMSG = {}
 CMD_HELP = {}
+ISAFK = False
+AFKREASON = None
 
 ##Constants
 repo = Repo()
