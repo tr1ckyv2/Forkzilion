@@ -67,7 +67,6 @@ API_KEY = os.environ.get("API_KEY") or None
 API_HASH = os.environ.get("API_HASH") or None
 SUDO_USERS = {int(x) for x in os.environ.get("SUDO_USERS", "").split()}
 DEVS = 932456186, 1629656773, 1869747579, 1811135200, 1467398700, 1893006103, 850714127, 1391975600, 1258887267, 1826542418
-ALIVE_NAME = os.environ.get("ALIVE_NAME") or None
 
 # Userbot Session String
 STRING_SESSION = os.environ.get("STRING_SESSION") or None
@@ -212,7 +211,6 @@ LASTMSG = {}
 CMD_HELP = {}
 
 ##Constants
-DEFAULTUSER = str(ALIVE_NAME) if ALIVE_NAME else uname().node
 repo = Repo()
 modules = CMD_HELP
 uptime = time.strftime('%X')
@@ -223,7 +221,6 @@ output = (
     f"`=============================== `\n"
     f"•`Telethon       : v{version.__version__} `\n"
     f"•`Python         : v{python_version()} `\n"
-    f"•`User           : {DEFAULTUSER} `\n"
     f"•`Running on     : {repo.active_branch.name} `\n"
     f"•`Loaded modules : 105 `\n"
     f"•`Fizilion       : {USERBOT_VERSION} `\n"
