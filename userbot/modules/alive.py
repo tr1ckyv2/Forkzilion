@@ -28,7 +28,7 @@ from userbot import CMD_HELP, TIMEOUT, USERBOT_VERSION, StartTime, bot, ALIVE_NA
 from userbot.events import register
 
 # ================= CONSTANT =================
-DEFAULTUSER = uname().node
+DEFAULTUSER = str(ALIVE_NAME) if ALIVE_NAME else uname().node
 repo = Repo()
 modules = CMD_HELP
 # ==================================================
@@ -237,7 +237,7 @@ async def amireallyalive(alive):
         f"  `Forkzilion is up and running...` \n"
         f"`================================= `\n"
         f"**Informations:**
-        f"• `Master         : {ALIVE_NAME}
+        f"• `Master         : {DEFAULTUSER}
         f"• `Running On     : Ubuntu 20.04.1`\n"
         f"• `Forkzilion Ver : Custom `\n"
         f"• `Python         : {python_version()} `\n"   
