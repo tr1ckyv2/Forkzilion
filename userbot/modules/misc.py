@@ -92,21 +92,14 @@ async def guidee(event):
 async def repo_is_here(wannasee):
     """ For .repo command, just returns the repo URL. """
     await wannasee.edit(
-        "[Click here](https://github.com/PrajjuS/ProjectFizilion) to open Fizilion's GitHub Repo."
+        "[Click here](https://github.com/DunggVN/Forkzilion/tree/DunggVN-Branch) to open my Forkzilion GitHub Repo."
     )
 
 @register(outgoing=True, pattern="^.repo$")
 async def repo_is_heree(wannaseee):
     """ For .repo command, just returns the repo URL. """
     await wannaseee.edit(
-        "[Click here](https://github.com/AbOuLfOoOoOuF/ProjectFizilion) to open my fork of Fizilion's GitHub Repo."
-    )
-
-@register(outgoing=True, pattern="^.deploy$")
-async def repo_is_here(wannasee):
-    """ For .deploy command, just returns the heroku deploying URL. """
-    await wannasee.edit(
-        "[Click here](https://heroku.com/deploy?template=https://github.com/AbOuLfOoOoOuF/ProjectFizilion/tree/pruh) to deploy Fizilion Userbot on Heroku."
+        "[Click here](https://github.com/DunggVN/Forkzilion/tree/DunggVN-Branch) to open my Forkzilion GitHub Repo."
     )
 
 @register(outgoing=True, pattern="^.support$")
@@ -150,12 +143,10 @@ CMD_HELP.update(
 ".readme"
 "\nUsage: Provide links to setup the userbot and it's modules\nAnd .support for support group\n\n"
 ".guide"
-"\nUsage: Provides Full guide to setup Fizilion Userbot.\n\n"
+"\nUsage: Provides Full guide to setup Forkzilion Userbot.\n\n"
 ".restart"
 "\nUsage: Restarts the bot !!\n\n"
 ".raw"
 "\nUsage: Get detailed JSON-like formatted data about replied message."
-".deploy"
-"\nUsage: Get link to deploy Fizilion Userbot on Heroku."
      }
 )
