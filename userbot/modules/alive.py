@@ -234,18 +234,18 @@ async def amireallyalive(alive):
     uptime = await get_readable_time((time.time() - StartTime))
     output = (
         f"`=================================`\n"
-        f"       **FORKZILION IS UP** \n"
+        f"        **FORKZILION IS UP** \n"
         f"`================================= `\n"
         f"•**Platform Type**        : `{os.name}`\n"
-        f"•**Distro**               : `{distro.name(pretty=False)}`\n"
-        f"•**Distro ver**           : `{distro.version(pretty=False, best=False)}`\n"
-        f"•**Python**               : `{python_version()} `\n"   
-        f"•**Telethon**             : `{version.__version__} `\n"
-        f"•**PIP**                  : `{pip.__version__} `\n"
-        f"•**Branch**               : `{repo.active_branch.name} `\n"
-        f"•**Loaded modules**     : `{len(modules)} `\n"
-        f"•**Release**              : `{USERBOT_VERSION} `\n"
-        f"•**Uptime**               : `{uptime} `\n"
+        f"•**Distro**                     : `{distro.name(pretty=False)}`\n"
+        f"•**Distro ver**               : `{distro.version(pretty=False, best=False)}`\n"
+        f"•**Python**                    : `{python_version()} `\n"   
+        f"•**Telethon**                 : `{version.__version__} `\n"
+        f"•**PIP**                            : `{pip.__version__} `\n"
+        f"•**Branch**                     : `{repo.active_branch.name} `\n"
+        f"•**Loaded modules**   : `{len(modules)} `\n"
+        f"•**Release**                    : `{USERBOT_VERSION} `\n"
+        f"•**Uptime**                      : `{uptime} `\n"
         f"`=========================================`\n"
 
     )
