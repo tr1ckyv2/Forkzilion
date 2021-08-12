@@ -15,7 +15,6 @@ COPY ./sample_config.env ./userbot.session* ./config.env* /Fizilion/
 
 # install required pypi modules
 RUN pip3 install -r requirements.txt
-pip install --upgrade pip
 
 # Finalization
 CMD ["python3","-m","userbot"]
