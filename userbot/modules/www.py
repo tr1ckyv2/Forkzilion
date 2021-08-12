@@ -12,7 +12,7 @@ from datetime import datetime
 from speedtest import Speedtest
 from telethon import functions
 
-from userbot import CMD_HELP
+from userbot import CMD_HELP, StartTime
 from userbot.events import register
 from userbot.utils import humanbytes
 
