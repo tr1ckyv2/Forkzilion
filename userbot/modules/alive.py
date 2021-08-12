@@ -247,12 +247,6 @@ async def psu(event):
         f"• `Release        : {USERBOT_VERSION} `\n"
         f"• `Uptime         : {uptime} `\n"
         f"`=================================`\n"
-        f"       **System Information**\n"
-        f"• `System   : {uname.system}`\n"
-        f"• `Release  : {uname.release}`\n"
-        f"• `Version  : {uname.version}`\n"
-        f"• `Arch     : {uname.machine}`\n"
-        f"`=================================`\n"
 
     )
     msg = await alive.edit(output)
