@@ -253,7 +253,7 @@ async def amireallyalive(alive):
     await sleep(30)
         
     if TIMEOUT:
-        await msg.delete()
+
         
 
 @register(outgoing=True, pattern="^.aliveu")
