@@ -237,7 +237,7 @@ async def amireallyalive(alive):
         f"  `Forkzilion is up and running...` \n"
         f"`================================= `\n"
         f"           **Informations:**        \n"
-        f"• `Master         : {DEFAULTUSER}
+        f"• `Master         :` {DEFAULTUSER} \n"
         f"• `Running On     : Ubuntu 20.04.1`\n"
         f"• `Forkzilion Ver : Custom `\n"
         f"• `Python         : {python_version()} `\n"   
