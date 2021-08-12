@@ -110,7 +110,7 @@ TIMEOUT = sb(os.environ.get("TIMEOUT") or "True")
 COUNTRY = str(os.environ.get("COUNTRY") or "")
 TZ_NUMBER = os.environ.get("TZ_NUMBER") or 1
 
-# Version of Fizisuperlight
+# Version of FiziSuperLight
 USERBOT_VERSION = os.environ.get("USERBOT_VERSION") or "production 3.1+"
 
 # User Terminal alias
@@ -224,7 +224,7 @@ output = (
     f"`=============================== `\n"
     f"•`Telethon       : v{version.__version__} `\n"
     f"•`Python         : v{python_version()} `\n"
-    f"•`Running on     : {repo.active_branch.name} `\n"
+    f"•`Branch         : {repo.active_branch.name} `\n"
     f"•`Loaded modules : 105 `\n"
     f"•`Fizilion       : {USERBOT_VERSION} `\n"
     f"•`Bot started at : {uptime} `\n" 
