@@ -244,6 +244,11 @@ async def amireallyalive(alive):
         f"• `Loaded modules  : {len(modules)} `\n"
         f"• `Release         : {USERBOT_VERSION} `\n"
         f"• `Uptime          : {uptime} `\n"
+     softw = "**System Information**\n"
+     softw += f"`System   : {uname.system}`\n"
+     softw += f"`Release  : {uname.release}`\n"
+     softw += f"`Version  : {uname.version}`\n"
+     softw += f"`Machine  : {uname.machine}`\n"
         f"`=================================`\n"
 
     )
