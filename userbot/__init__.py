@@ -99,6 +99,10 @@ CONSOLE_LOGGER_VERBOSE = "False"
 # SQL Database URI
 DB_URI = os.environ.get("DATABASE_URL") or None
 
+# Custom Alive
+ALIVE_NAME = os.environ.get("ALIVE_NAME") or None
+ALIVE_LOGO = str(os.environ.get("ALIVE_LOGO") or "https://github.com/AbOuLfOoOoOuF/ProjectFizilion/raw/pruh/resources/fizsmall.png")
+
 # Chrome Driver and Headless Google Chrome Binaries
 CHROME_DRIVER = "/usr/bin/chromedriver"
 GOOGLE_CHROME_BIN = "/usr/bin/chromium-browser"
@@ -110,7 +114,7 @@ TIMEOUT = sb(os.environ.get("TIMEOUT") or "True")
 COUNTRY = str(os.environ.get("COUNTRY") or "")
 TZ_NUMBER = os.environ.get("TZ_NUMBER") or 1
 
-# Version of FiziSuperLight
+# Version of Forkzilion
 USERBOT_VERSION = os.environ.get("USERBOT_VERSION") or "production 3.1+"
 
 # User Terminal alias
