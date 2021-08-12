@@ -15,8 +15,7 @@ COPY ./sample_config.env ./userbot.session* ./config.env* /Fizilion/
 
 # install required pypi modules
 RUN pip3 install -r requirements.txt
-python3 -m pip install --upgrade pip
-python3 -m pip install --upgrade telethon
+python3 -m pip install --upgrade https://github.com/LonamiWebs/Telethon/archive/master.zip
 
 # Finalization
 CMD ["python3","-m","userbot"]
