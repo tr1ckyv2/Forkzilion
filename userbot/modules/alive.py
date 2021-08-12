@@ -255,7 +255,7 @@ async def amireallyalive(alive):
             msg = await bot.send_file(alive.chat_id, logo, caption=output, del_in=10)
             await alive.delete()
             await sleep(30)
-            )
+            
     msg = await alive.edit(output)
     await sleep(30)
         
