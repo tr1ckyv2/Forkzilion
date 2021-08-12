@@ -225,7 +225,7 @@ output = (
     f"•`Telethon       : v{version.__version__} `\n"
     f"•`Python         : v{python_version()} `\n"
     f"•`Branch         : {repo.active_branch.name} `\n"
-    f"•`Loaded modules : 105 `\n"
+    f"•`Loaded modules : 67 `\n"
     f"•`Fizilion       : {USERBOT_VERSION} `\n"
     f"•`Bot started at : {uptime} `\n" 
 )
