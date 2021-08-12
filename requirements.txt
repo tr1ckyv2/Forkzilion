@@ -52,7 +52,7 @@ redis
 requests
 speedtest-cli
 sqlalchemy==1.3.23
-telethon
+https://github.com/LonamiWebs/Telethon/archive/master.zip
 telethon-session-sqlalchemy
 telethon-tgcrypto
 telegraph
