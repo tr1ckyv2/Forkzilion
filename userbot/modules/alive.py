@@ -24,7 +24,7 @@ import psutil
 from git import Repo
 from telethon import __version__, version
 
-from userbot import CMD_HELP, TIMEOUT, USERBOT_VERSION, StartTime, bot
+from userbot import CMD_HELP, TIMEOUT, USERBOT_VERSION, StartTime, bot, ALIVE_NAME, ALIVE_LOGO
 from userbot.events import register
 
 # ================= CONSTANT =================
@@ -236,6 +236,8 @@ async def amireallyalive(alive):
         f"`=================================`\n"
         f"  `Forkzilion is up and running...` \n"
         f"`================================= `\n"
+        f"**Informations:**
+        f"• `Master         : {ALIVE_NAME}
         f"• `Running On     : Ubuntu 20.04.1`\n"
         f"• `Forkzilion Ver : Custom `\n"
         f"• `Python         : {python_version()} `\n"   
@@ -243,7 +245,6 @@ async def amireallyalive(alive):
         f"• `PIP            : {pip.__version__} `\n"
         f"• `Branch         : {repo.active_branch.name} `\n"
         f"• `Loaded modules : {len(modules)} `\n"
-        f"• `Release        : {USERBOT_VERSION} `\n"
         f"• `Uptime         : {uptime} `\n"
         f"`=================================`\n"
 
