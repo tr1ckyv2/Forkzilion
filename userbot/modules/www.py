@@ -6,13 +6,13 @@
 """ Userbot module containing commands related to the \
     Information Superhighway (yes, Internet). """
 
-import time
+
 from datetime import datetime
 
 from speedtest import Speedtest
 from telethon import functions
 
-from userbot import CMD_HELP, StartTime
+from userbot import CMD_HELP
 from userbot.events import register
 from userbot.utils import humanbytes
 
@@ -133,8 +133,7 @@ async def pingme(pong):
     await pong.edit("🏓 **Pong!!**")
     end = datetime.now()
     duration = (end - start).microseconds / 1000
-    uptime = await get_readable_time((time.time() - StartTime))
-    await pong.edit("🏓 **Pong!!**\n**Telethon Ping:**`%sms` % (duration)\n**Uptime**:{uptime}")
+    await pong.edit("🏓 **Pong!!**\n**Ping:**`%sms`" % (duration))
 
 CMD_HELP.update(
     {
