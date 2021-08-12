@@ -6,6 +6,7 @@
 """ Userbot module containing commands related to the \
     Information Superhighway (yes, Internet). """
 
+import time
 from datetime import datetime
 
 from speedtest import Speedtest
