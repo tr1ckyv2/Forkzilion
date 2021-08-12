@@ -230,6 +230,8 @@ async def pipcheck(pip):
 
 @register(outgoing=True, pattern=r"^.(alive|on)$")
 async def amireallyalive(alive):
+async def psu(event):
+    uname = platform.uname()
     """ For .alive command, check if the bot is running.  """
     uptime = await get_readable_time((time.time() - StartTime))
     output = (
