@@ -233,7 +233,7 @@ async def amireallyalive(alive):
     """ For .alive command, check if the bot is running.  """
     start = datetime.now()
     end = datetime.now()
-    duration = (end - start).microseconds / 1000
+    ms = (end - start).microseconds / 1000
     uptime = await get_readable_time((time.time() - StartTime))
     output = (
         f"`=================================`\n"
@@ -249,7 +249,7 @@ async def amireallyalive(alive):
         f"• `Release        : {USERBOT_VERSION} `\n"
         f"• `Uptime         : {uptime} `\n"
         f"`=================================`\n"
-        f"`Ping:{duration} ms` \n"
+        f"`|Ping:{ms} ms` \n"
         f"`=================================`\n"
 
     )
