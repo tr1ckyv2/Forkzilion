@@ -249,7 +249,7 @@ async def amireallyalive(alive):
         f"• `Release        : {USERBOT_VERSION} `\n"
         f"• `Uptime         : {uptime} `\n"
         f"`=================================`\n"
-        f"("`Pong!\n%sms`" % (duration)) \n"
+        f"("`Pong! %sms`" % (duration)) \n"
         f"`=================================`\n"
 
     )
