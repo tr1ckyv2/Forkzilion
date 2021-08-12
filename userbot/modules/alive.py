@@ -236,7 +236,7 @@ async def amireallyalive(alive):
         f"`=================================`\n"
         f"  `Forkzilion is up and running...` \n"
         f"`================================= `\n"
-        f"• `Running On     : Ubuntu 20.04.1
+        f"• `Running On     : Ubuntu 20.04.1`\n"
         f"• `Forkzilion Ver : DunggVN Custom `\n"
         f"• `Python         : {python_version()} `\n"   
         f"• `Telethon       : {version.__version__} `\n"
