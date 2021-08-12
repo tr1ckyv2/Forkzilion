@@ -19,6 +19,7 @@ from datetime import datetime
 from os import remove
 from platform import python_version, uname
 from shutil import which
+from telethon import functions
 
 import psutil
 from git import Repo
@@ -249,7 +250,7 @@ async def amireallyalive(alive):
         f"• `Release        : {USERBOT_VERSION} `\n"
         f"• `Uptime         : {uptime} `\n"
         f"`=================================`\n"
-        f"`|Ping:{ms} ms` \n"
+        f"`Ping: %sms`" % {ms}
         f"`=================================`\n"
 
     )
