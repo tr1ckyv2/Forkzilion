@@ -244,12 +244,12 @@ async def amireallyalive(alive):
         f"• `Loaded modules : {len(modules)} `\n"
         f"• `Release        : {USERBOT_VERSION} `\n"
         f"• `Uptime         : {uptime} `\n"
-        f"`=================================`\n
-        f"**System Information**\n"
-        f"`System   : {uname.system}`\n"
-        f"`Release  : {uname.release}`\n"
-        f"`Version  : {uname.version}`\n"
-        f"`Machine  : {uname.machine}`\n"
+        f"`=================================`\n"
+        f"       **System Information**\n"
+        f"• `System   : {uname.system}`\n"
+        f"• `Release  : {uname.release}`\n"
+        f"• `Version  : {uname.version}`\n"
+        f"• `Arch     : {uname.machine}`\n"
         f"`=================================`\n"
 
     )
