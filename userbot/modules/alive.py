@@ -238,7 +238,7 @@ async def amireallyalive(alive):
         f"`================================= `\n"
         f"                        **[Informations]**      \n"
         f"• `Master         :`  {DEFAULTUSER} \n"
-        f"• `Running On     : Ubuntu 20.04.1`\n"
+        f"• `Running On     : {distro.name(pretty=False)}`\n"
         f"• `Forkzilion Ver : Custom `\n"
         f"• `Python         : {python_version()} `\n"   
         f"• `Telethon       : {version.__version__} `\n"
