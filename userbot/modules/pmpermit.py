@@ -225,7 +225,7 @@ async def approvepm(apprvpm):
     ):
 
     
-    try:
+     try:
         approve(uid)
     except IntegrityError:
         await apprvpm.edit("`User may already be approved.`")
