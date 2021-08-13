@@ -17,8 +17,7 @@ from userbot import (
     COUNT_PM,
     LASTMSG,
     LOGS,
-    PM_PERMIT,
-    PM_PERMIT_PIC,
+    PM_AUTO_BAN,
 )
 from userbot.events import register
 
