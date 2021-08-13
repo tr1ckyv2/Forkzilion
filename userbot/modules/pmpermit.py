@@ -17,7 +17,8 @@ from userbot import (
     COUNT_PM,
     LASTMSG,
     LOGS,
-    PM_AUTO_BAN,
+    PM_PERMIT,
+    PM_PERMIT_PIC,
 )
 from userbot.events import register
 
@@ -27,7 +28,7 @@ DEF_UNAPPROVED_MSG = (
     "I am Fizilion, my Master's assistant.\n"
     "Please wait for my Master to read your PMs.\n"
     "Have patience, otherwise spamming my Master's pm will result in a block.\n\n\n"
-    "*This PM is Powered by Fizilion Ai")
+    "*This PM is Powered by Forkzilion AI")
 # =================================================================
 
 
@@ -223,6 +224,17 @@ async def approvepm(apprvpm):
     async for message in apprvpm.client.iter_messages(
         apprvpm.chat_id, from_user="me", search=UNAPPROVED_MSG
     ):
+    if PM_PERMIT_PIC:
+        try:
+            logo = PM_PERMIT_PIC
+            msg = await bot.send_file(apprvpm.chat_id, logo, caption=output, del_in=10)
+            await apprvpm.delete()
+            await sleep(30)
+        except BaseException:
+            await apprvpm.edit(
+                output + "\n\n *`The provided logo is invalid."
+                "\nMake sure the link is directed to the logo picture`"
+            )
         await message.delete()
 
     try:
