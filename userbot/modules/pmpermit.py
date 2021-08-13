@@ -198,8 +198,7 @@ async def approvepm(apprvpm):
     try:
         from userbot.modules.sql_helper.globals import gvarstatus
         from userbot.modules.sql_helper.pm_permit_sql import approve
-    except AttributeError:
-        await apprvpm.edit("`Running on Non-SQL mode!`")
+    except ValueError:
         return
 
     if apprvpm.reply_to_msg_id:
