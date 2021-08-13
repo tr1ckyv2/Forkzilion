@@ -81,8 +81,9 @@ if BOTLOG:
 else:
     LOGSPAMMER = False
     
-# Bleep Blop, this is a bot ;)
-PM_AUTO_BAN = sb(os.environ.get("PM_AUTO_BAN") or "False")
+# PM Permit
+PM_PERMIT = sb(os.environ.get("PM_PERMIT") or "False")
+PM_PERMIT_PIC = str(os.environ.get("PM_PERMIT_PIC") or "https://github.com/AbOuLfOoOoOuF/ProjectFizilion/raw/pruh/resources/fizsmall.png")
 
 # Heroku Credentials for updater.
 HEROKU_APP_NAME = os.environ.get("HEROKU_APP_NAME") or None
@@ -229,7 +230,7 @@ output = (
     f"•`Telethon       : v{version.__version__} `\n"
     f"•`Python         : v{python_version()} `\n"
     f"•`Branch         : {repo.active_branch.name} `\n"
-    f"•`Loaded modules : 67 `\n"
+    f"•`Loaded modules : 66 `\n"
     f"•`Fizilion       : {USERBOT_VERSION} `\n"
     f"•`Bot started at : {uptime} `\n" 
 )
