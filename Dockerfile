@@ -15,7 +15,7 @@ COPY ./sample_config.env ./userbot.session* ./config.env* /Fizilion/
 
 #create virtualenv
 RUN pip install virtualenv
-RUN virtualenv -p /usr/bin/python3 venv
+RUN virtualenv -p /usr/bin/python3.9 venv
 RUN . ./venv/bin/activate
 
 # install required pypi modules
