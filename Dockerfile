@@ -15,9 +15,6 @@ COPY ./sample_config.env ./userbot.session* ./config.env* /Fizilion/
 
 # install required pypi modules
 RUN pip3 install --upgrade pip
-RUN pip install virtualenv
-RUN virtualenv -p /usr/bin/python3 venv
-RUN . ./venv/bin/activate
 RUN pip3 install -r requirements.txt
 
 # Finalization
