@@ -198,7 +198,7 @@ async def approvepm(apprvpm):
     try:
         from userbot.modules.sql_helper.globals import gvarstatus
         from userbot.modules.sql_helper.pm_permit_sql import approve
-    except ValueError:
+    except (ValueError, AttributeError) as error:
         return
 
     if apprvpm.reply_to_msg_id:
