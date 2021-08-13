@@ -225,19 +225,6 @@ async def approvepm(apprvpm):
         apprvpm.chat_id, from_user="me", search=UNAPPROVED_MSG
     ):
 
-    if PM_PERMIT_PIC:
-        try:
-            logo = PM_PERMIT_PIC
-            msg = await bot.send_file(apprvpm.chat_id, logo, caption=output, del_in=10)
-            await apprvpm.delete()
-            await sleep(30)
-        except BaseException:
-            await apprvpm.edit(
-                output + "\n\n *`The provided logo is invalid."
-                "\nMake sure the link is directed to the logo picture`"
-            )
-        await message.delete()
-
     try:
         approve(uid)
     except IntegrityError:
