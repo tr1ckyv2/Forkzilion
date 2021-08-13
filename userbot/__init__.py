@@ -82,7 +82,7 @@ else:
     LOGSPAMMER = False
     
 # PM Permit
-PM_PERMIT = sb(os.environ.get("PM_PERMIT") or "False")
+PM_AUTO_BAN = sb(os.environ.get("PM_AUTO_BAN") or "False")
 
 # Heroku Credentials for updater.
 HEROKU_APP_NAME = os.environ.get("HEROKU_APP_NAME") or None
