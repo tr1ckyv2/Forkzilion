@@ -54,6 +54,14 @@
       "description": "PM Permit Feature. Also known as the 'bleep blop, this is a bot...' module.",
       "value": "False"
     },
+    "ALIVE_NAME": {
+      "description": "Custom alive name",
+      "required": true
+    },
+    "ALIVE_LOGO": {
+      "description": "Link your alive pic",
+      "required": true
+    },
     "CLEAN_WELCOME": {
       "description": "When a new person joins, the old welcome message is deleted.",
       "value": "True"
