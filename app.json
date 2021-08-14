@@ -26,14 +26,6 @@
       "description": "Get this value by running [python3 string_session.py] in Termux or local system.",
       "required": true
     },
-    "ALIVE_LOGO": {
-      "description": "Custom alive image"
-      "required": false
-    },
-    "ALIVE_NAME": {
-      "description": "Custom alive name"
-      "required": false
-    },
     "HEROKU_API_KEY": {
       "description": "Your Heroku API key, get it from 'https://dashboard.heroku.com/account'",
       "value": ""
