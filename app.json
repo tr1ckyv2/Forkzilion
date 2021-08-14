@@ -1,5 +1,5 @@
 {
-  "name": "Project Fizilion",
+  "name": "Forkzilion",
   "description": "A modular Telegram userbot running on Python 3.8+ with an sqlalchemy database.",
   "logo": "https://github.com/PrajjUS/ProjectFizilion/raw/demon/resources/Fizilion.png",
   "keywords": [
@@ -9,7 +9,7 @@
     "modular",
     "productivity"
   ],
-  "repository": "https://github.com/AbOuLfOoOoOuF/ProjectFizilion",
+  "repository": "https://github.com/DunggVN/Forkzilion/",
   "website": "https://t.me/PrajjuS",
   "success_url": "https://t.me/ProjectFizilion",
   "stack": "container",
@@ -25,6 +25,14 @@
     "STRING_SESSION": {
       "description": "Get this value by running [python3 string_session.py] in Termux or local system.",
       "required": true
+    },
+    "ALIVE_LOGO": {
+      "description": "Custom alive image"
+      "required": false
+    },
+    "ALIVE_NAME": {
+      "description": "Custom alive name"
+      "required": false
     },
     "HEROKU_API_KEY": {
       "description": "Your Heroku API key, get it from 'https://dashboard.heroku.com/account'",
@@ -51,7 +59,7 @@
       "value": "0"
     },
     "PM_AUTO_BAN": {
-      "description": "PM Auto-Ban Feature Switch. Also known as the 'bleep blop, this is a bot...' module.",
+      "description": "PM Permit Feature. Also known as the 'bleep blop, this is a bot...' module.",
       "value": "False"
     },
     "CLEAN_WELCOME": {
