@@ -1,5 +1,5 @@
 # inherit prebuilt image
-FROM prajwals3/projectfizilion:latest
+FROM python:3.9-slim-buster
 
 # env setup
 RUN mkdir /Fizilion && chmod 777 /Fizilion
