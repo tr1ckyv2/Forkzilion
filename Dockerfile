@@ -1,5 +1,5 @@
 # inherit prebuilt image
-FROM movecrew/one4udeb:debian-latest
+FROM prajwals3/projectfizilion:latest
 
 # env setup
 RUN mkdir /Fizilion && chmod 777 /Fizilion
