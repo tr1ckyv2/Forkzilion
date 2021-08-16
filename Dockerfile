@@ -18,8 +18,8 @@ RUN apt -qq install -y --no-install-recommends \
     unzip \
     wget \
     ffmpeg \
-    jq
-RUN apt-get install libpq-dev
+    jq \
+    libpq-dev
 
 # clone repo
 RUN git clone https://github.com/DunggVN/ProjectFizilion -b DunggVNTest /Fizilion
