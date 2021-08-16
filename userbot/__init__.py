@@ -91,7 +91,7 @@ HEROKU_API_KEY = os.environ.get("HEROKU_API_KEY") or None
 # Custom (forked) repo URL and BRANCH for updater.
 UPSTREAM_REPO_URL = (os.environ.get("UPSTREAM_REPO_URL")
                      or "https://github.com/DunggVN/Forkzilion.git")
-UPSTREAM_REPO_BRANCH = os.environ.get("UPSTREAM_REPO_BRANCH") or "DunggVN"
+UPSTREAM_REPO_BRANCH = os.environ.get("UPSTREAM_REPO_BRANCH") or "DunggVNTest"
 
 # Console verbose logging
 CONSOLE_LOGGER_VERBOSE = "False"
@@ -118,8 +118,7 @@ TZ_NUMBER = os.environ.get("TZ_NUMBER") or 1
 USERBOT_VERSION = os.environ.get("USERBOT_VERSION") or "production 3.1+"
 
 # User Terminal alias
-MASTER = str(ALIVE_NAME) if ALIVE_NAME else uname().node
-USER_TERM_ALIAS = "{MASTER}"
+USER_TERM_ALIAS = "Debian"
 
 # Clean Welcome
 CLEAN_WELCOME = sb(os.environ.get("CLEAN_WELCOME") or "True")
