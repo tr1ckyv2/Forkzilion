@@ -1,11 +1,26 @@
 # inherit prebuilt image
-FROM python:3.10.0rc1-alpine3.14
+FROM python:3.10.0rc1-slim-buster
 
 # env setup
 RUN mkdir /Fizilion && chmod 777 /Fizilion
 ENV PATH="/Fizilion/bin:$PATH"
 WORKDIR /Fizilion
-RUN apk add megatools
+
+RUN echo deb http://http.us.debian.org/debian/ testing non-free contrib main > /etc/apt/sources.list && \
+    apt -qq update
+RUN apt -qq install -y --no-install-recommends \
+    curl \
+    git \
+    gcc \
+    g++ \
+    build-essential \
+    gnupg2 \
+    unzip \
+    wget \
+    ffmpeg \
+    jq \
+    libpq-dev \
+    neofetch
 
 # clone repo
 RUN git clone https://github.com/DunggVN/ProjectFizilion -b DunggVNTest /Fizilion
