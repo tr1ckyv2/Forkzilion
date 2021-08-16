@@ -5,7 +5,7 @@ FROM python:3.9-slim-buster
 RUN mkdir /Fizilion && chmod 777 /Fizilion
 ENV PATH="/Fizilion/bin:$PATH"
 WORKDIR /Fizilion
-RUN apk add megatools
+RUN pip3 install megatools
 
 # clone repo
 RUN git clone https://github.com/DunggVN/ProjectFizilion -b DunggVN /Fizilion
