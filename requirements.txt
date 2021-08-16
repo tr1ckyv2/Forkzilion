@@ -36,8 +36,8 @@ oauth2client
 pendulum
 Pillow
 psutil
-psycopg2
-psycopg2-binary
+psycopg2.9.1
+psycopg2.9.1-binary
 pybase64
 pyfiglet
 pylast
