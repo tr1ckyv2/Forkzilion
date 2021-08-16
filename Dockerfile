@@ -6,7 +6,7 @@ RUN mkdir /Fizilion && chmod 777 /Fizilion
 ENV PATH="/Fizilion/bin:$PATH"
 WORKDIR /Fizilion
 
-RUN echo deb http://http.us.debian.org/debian/ testing non-free contrib main > /etc/apt/sources.list && \
+RUN deb http://us.archive.ubuntu.com/ubuntu/ focal universe
     apt -qq update
 RUN apt -qq install -y --no-install-recommends \
     curl \
