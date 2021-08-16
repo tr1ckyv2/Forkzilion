@@ -1,5 +1,5 @@
 # inherit prebuilt image
-FROM python:3.9.6-slim-buster
+FROM ubuntu:20.04
 
 # env setup
 RUN mkdir /Fizilion && chmod 777 /Fizilion
