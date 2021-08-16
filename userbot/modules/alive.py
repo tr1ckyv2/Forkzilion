@@ -233,13 +233,12 @@ async def amireallyalive(alive):
     """ For .alive command, check if the bot is running.  """
     uptime = await get_readable_time((time.time() - StartTime))
     output = (
-        f"`=================================`\n"
+        f"`==================================`\n"
         f"  `Forkzilion is up and running...` \n"
-        f"`================================= `\n"
+        f"`==================================`\n"
         f"                        **[Informations]**      \n"
         f"• `Master         :`  {DEFAULTUSER} \n"
-        f"• `Running On     : {distro.name(pretty=True)}`\n"
-        f"• `Debian Ver     :{distro.version(pretty=True, best=True)}`\n"
+        f"• `Hosting On     : {distro.name(pretty=False)} `\n"
         f"• `Forkzilion Ver : Custom `\n"
         f"• `Python         : {python_version()} `\n"   
         f"• `Telethon       : {version.__version__} `\n"
@@ -247,7 +246,7 @@ async def amireallyalive(alive):
         f"• `Branch         : {repo.active_branch.name} `\n"
         f"• `Loaded modules : {len(modules)} `\n"
         f"• `Uptime         : {uptime} `\n"
-        f"`=================================`\n"
+        f"`==================================`\n"
 
     )
     if ALIVE_LOGO:
