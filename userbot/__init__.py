@@ -118,7 +118,8 @@ TZ_NUMBER = os.environ.get("TZ_NUMBER") or 1
 USERBOT_VERSION = os.environ.get("USERBOT_VERSION") or "production 3.1+"
 
 # User Terminal alias
-USER_TERM_ALIAS = "DunggVN"
+MASTER = str(ALIVE_NAME) if ALIVE_NAME else uname().node
+USER_TERM_ALIAS = "{MASTER}"
 
 # Clean Welcome
 CLEAN_WELCOME = sb(os.environ.get("CLEAN_WELCOME") or "True")
@@ -218,6 +219,7 @@ ISAFK = False
 AFKREASON = None
 
 ##Constants
+DEFAULTUSER = str(ALIVE_NAME) if ALIVE_NAME else uname().node
 repo = Repo()
 modules = CMD_HELP
 uptime = time.strftime('%X')
@@ -226,6 +228,7 @@ output = (
     "` =============================== `\n"
     f"`Fizilion is Up and Running.... `\n"
     f"`=============================== `\n"
+    f"•`Master         : {DEFAULTUSER} `\n"
     f"•`Telethon       : v{version.__version__} `\n"
     f"•`Python         : v{python_version()} `\n"
     f"•`Branch         : {repo.active_branch.name} `\n"
