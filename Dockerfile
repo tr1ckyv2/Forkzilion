@@ -5,7 +5,20 @@ FROM prajwals3/projectfizilion:latest
 RUN mkdir /Fizilion && chmod 777 /Fizilion
 ENV PATH="/Fizilion/bin:$PATH"
 WORKDIR /Fizilion
-RUN apk add megatools
+
+RUN echo deb http://http.us.debian.org/debian/ testing non-free contrib main > /etc/apt/sources.list && \
+    apt -qq update
+RUN apt -qq install -y --no-install-recommends \
+    curl \
+    git \
+    gcc \
+    g++ \
+    build-essential \
+    gnupg2 \
+    unzip \
+    wget \
+    ffmpeg \
+    jq
 
 # clone repo
 RUN git clone https://github.com/DunggVN/ProjectFizilion -b DunggVN /Fizilion
