@@ -8,7 +8,7 @@ WORKDIR /Fizilion
 
 RUN deb http://us.archive.ubuntu.com/ubuntu/ focal universe
     apt-get update && apt-get upgrade -y
-RUN apt -qq install -y --no-install-recommends \
+RUN apt-get install -y --no-install-recommends \
     curl \
     git \
     gcc \
