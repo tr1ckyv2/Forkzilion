@@ -7,7 +7,7 @@ ENV PATH="/Fizilion/bin:$PATH"
 WORKDIR /Fizilion
 
 RUN deb http://us.archive.ubuntu.com/ubuntu/ focal universe
-    apt -qq update
+    apt upgrade -y
 RUN apt -qq install -y --no-install-recommends \
     curl \
     git \
