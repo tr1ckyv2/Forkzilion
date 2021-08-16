@@ -1,11 +1,11 @@
 # inherit prebuilt image
-FROM python:3.9-slim-buster
+FROM prajwals3/projectfizilion:latest
 
 # env setup
 RUN mkdir /Fizilion && chmod 777 /Fizilion
 ENV PATH="/Fizilion/bin:$PATH"
 WORKDIR /Fizilion
-RUN pip3 install megatools
+RUN apk add megatools
 
 # clone repo
 RUN git clone https://github.com/DunggVN/ProjectFizilion -b DunggVN /Fizilion
