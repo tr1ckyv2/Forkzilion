@@ -73,6 +73,14 @@
     "LOGSPAMMER": {
       "description": "Set this to True in case you want the error logs to be stored in the userbot log group, instead of spitting out the file in the current chat, requires a valid BOTLOG_CHATID to be set.",
       "value": "False"
+    },
+    "COUNTRY": {
+      "description": "Your Country Name (for time, date module)",
+      "required": false
+    },
+    "TZ_NUMBER": {
+      "description": "Your Time Zone (Example: GMT+7:00)(for time, date module)",
+      "required": false
     }
   },
   "addons": [
