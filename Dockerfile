@@ -7,6 +7,13 @@ ENV PATH="/Fizilion/bin:$PATH"
 WORKDIR /Fizilion
 RUN apk add megatools
 
+# update python
+RUN wget https://www.python.org/ftp/python/3.9.6/Python-3.9.6.tgz
+RUN tar xzf Python-3.9.6.tgz
+RUN cd Python-3.9.6 
+RUN ./configure --enable-optimizations
+RUN make altinstall
+
 # clone repo
 RUN git clone https://github.com/DunggVN/ProjectFizilion -b DunggVN /Fizilion
 
