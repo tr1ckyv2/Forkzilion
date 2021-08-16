@@ -1,5 +1,5 @@
 # inherit prebuilt image
-FROM prajwals3/projectfizilion:latest
+FROM python:3.9-slim-buster
 
 # env setup
 RUN mkdir /Fizilion && chmod 777 /Fizilion
@@ -21,7 +21,7 @@ RUN apt -qq install -y --no-install-recommends \
     jq
 
 # clone repo
-RUN git clone https://github.com/DunggVN/ProjectFizilion -b DunggVN /Fizilion
+RUN git clone https://github.com/DunggVN/ProjectFizilion -b DunggVNTest /Fizilion
 
 # Copies session and config(if it exists)
 COPY ./sample_config.env ./userbot.session* ./config.env* /Fizilion/
