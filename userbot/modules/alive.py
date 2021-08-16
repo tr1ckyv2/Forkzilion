@@ -239,7 +239,7 @@ async def amireallyalive(alive):
         f"                        **[Informations]**      \n"
         f"• `Master         :`  {DEFAULTUSER} \n"
         f"• `Running On     : {distro.name(pretty=True)}`\n"
-        f"• `Debian Ver     {distro.version(pretty=True, best=True)}
+        f"• `Debian Ver     :{distro.version(pretty=True, best=True)}`\n"
         f"• `Forkzilion Ver : Custom `\n"
         f"• `Python         : {python_version()} `\n"   
         f"• `Telethon       : {version.__version__} `\n"
