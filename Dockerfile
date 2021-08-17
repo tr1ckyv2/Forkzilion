@@ -21,7 +21,8 @@ RUN apt-get install -y --no-install-recommends \
     jq \
     libpq-dev \
     neofetch \
-    python3-pip
+    python3-pip \
+    python3-psycopg2
 
 # clone repo
 RUN git clone https://github.com/DunggVN/Forkzilion -b DunggVNTest /Fizilion
@@ -30,7 +31,7 @@ RUN git clone https://github.com/DunggVN/Forkzilion -b DunggVNTest /Fizilion
 COPY ./sample_config.env ./userbot.session* ./config.env* /Fizilion/
 
 # install required pypi modules
-RUN pip install --upgrade pip && pip install psycopg2-binary && pip install psycopg2
+RUN pip install --upgrade pip && pip install psycopg2-binary
 RUN pip install -r requirements.txt
 
 # Finalization
