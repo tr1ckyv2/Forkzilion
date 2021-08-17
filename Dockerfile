@@ -7,7 +7,7 @@ ENV PATH="/Fizilion/bin:$PATH"
 WORKDIR /Fizilion
 
 RUN echo deb http://us.archive.ubuntu.com/ubuntu/ focal universe > /etc/apt/sources.list.d/docker.list
-RUN apt-get update && DEBIAN_FRONTEND="noninteractive" TZ="Asia/Hanoi" apt-get install -y tzdata
+RUN apt-get update && DEBIAN_FRONTEND="noninteractive" TZ="Asia/Ho_Chi_Minh" apt-get install -y tzdata
 RUN apt-get install -y --no-install-recommends \
     curl \
     git \
