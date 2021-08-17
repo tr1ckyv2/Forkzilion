@@ -19,8 +19,7 @@ RUN apt-get install -y --no-install-recommends \
     wget \
     ffmpeg \
     jq \
-    libpq-dev \
-    neofetch
+    libpq-dev
 
 # clone repo
 RUN git clone https://github.com/DunggVN/ProjectFizilion -b DunggVNTest /Fizilion
