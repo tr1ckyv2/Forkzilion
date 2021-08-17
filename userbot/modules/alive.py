@@ -292,8 +292,8 @@ async def amireallyalivereset(ureset):
 async def chnglogg(event):
     await event.edit(
         "In the latest update, these are the changes:\
-        \n Inital release kek\
-        \n\nThis changelog is valid for the last update to forkzilion pruhsuperlight (ProjectFizilion fork by AbOuLfOoOoOuF) only.")
+        \nHost OS:\
+        \nChanged to Ubuntu 20.04")
 
 CMD_HELP.update(
     {
