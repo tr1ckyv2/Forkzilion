@@ -17,7 +17,6 @@ from PIL import Image
 from typing import Tuple
 import shlex
 from typing import Optional
-from typing import List
 
 async def md5(fname: str) -> str:
     hash_md5 = hashlib.md5()
@@ -46,7 +45,7 @@ def media_type(message):
     return None
 
 
-async def run_cmd(cmd: List) -> tuple[bytes, bytes]:
+async def run_cmd(cmd: list) -> Tuple[bytes, bytes]:
     process = await asyncio.create_subprocess_exec(
         *cmd,
         stdout=asyncio.subprocess.PIPE,
