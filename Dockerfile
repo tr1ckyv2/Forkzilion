@@ -22,7 +22,6 @@ RUN apt-get install -y --no-install-recommends \
     libpq-dev \
     neofetch \
     python3-pip
-RUN apt-get install --reinstall ca-certificates -y
 
 # clone repo
 RUN git clone https://github.com/DunggVN/Forkzilion -b DunggVNTest /Fizilion
