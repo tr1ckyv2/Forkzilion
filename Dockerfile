@@ -21,7 +21,7 @@ RUN apt-get install -y --no-install-recommends \
     jq \
     libpq-dev \
     neofetch
-RUN apt-get install --reinstall ca-certificates
+RUN apt-get install --reinstall ca-certificates -y
 
 # clone repo
 RUN git clone https://github.com/DunggVN/Forkzilion -b DunggVNTest /Fizilion
