@@ -20,7 +20,8 @@ RUN apt-get install -y --no-install-recommends \
     ffmpeg \
     jq \
     libpq-dev \
-    neofetch
+    neofetch \
+    python3-pip
 RUN apt-get install --reinstall ca-certificates -y
 
 # clone repo
