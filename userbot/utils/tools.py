@@ -46,6 +46,7 @@ def media_type(message):
 
 
 async def run_cmd(cmd: list) -> tuple[bytes, bytes]:
+    except TypeError
     process = await asyncio.create_subprocess_exec(
         *cmd,
         stdout=asyncio.subprocess.PIPE,
