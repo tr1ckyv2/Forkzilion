@@ -292,7 +292,7 @@ async def blockpm(block):
         from userbot.modules.sql_helper.pm_permit_sql import dissprove
 
         dissprove(uid)
-    except AttributeError:
+    except (TypeError, AttributeError) as error:
         pass
 
     if BOTLOG:
