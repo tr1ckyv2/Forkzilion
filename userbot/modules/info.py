@@ -18,7 +18,7 @@ from userbot import CMD_HELP, TEMP_DOWNLOAD_DIRECTORY
 from userbot.events import register
 
 
-@register(pattern=".info(?: |$)(.*)", outgoing=True)
+@register(pattern="^\.info(?: |$)(.*)", outgoing=True)
 async def who(event):
 
     await event.edit(
