@@ -275,7 +275,7 @@ async def blockpm(block):
     """ For .block command, block people from PMing you! """
     if block.reply_to_msg_id:
         reply = await block.get_reply_message()
-        replied_user = await block.client.get_input_entity(reply.from_id)
+        replied_user = await block.client.get_peer(reply.from_id)
         aname = replied_user.id
         name0 = str(replied_user.first_name)
         await block.client(BlockRequest(aname))
