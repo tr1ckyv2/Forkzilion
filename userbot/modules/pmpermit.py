@@ -326,7 +326,7 @@ async def add_pmsg(cust_msg):
         return await cust_msg.edit("You need to set `PM_AUTO_BAN` to `True`")
     try:
         import userbot.modules.sql_helper.globals as sql
-    except (TypeError, AttributeError) as error:
+    except AttributeError:
         await cust_msg.edit("`Running on Non-SQL mode!`")
         return
 
