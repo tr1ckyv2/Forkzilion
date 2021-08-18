@@ -28,7 +28,7 @@ def get_welcome(chat_id):
         return SESSION.query(Welcome).get(str(chat_id))
     except:
         self.connection.rollback()
-    return
+        return
     finally:
         SESSION.close()
 
