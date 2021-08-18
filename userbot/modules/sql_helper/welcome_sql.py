@@ -26,6 +26,9 @@ Welcome.__table__.create(checkfirst=True)
 def get_welcome(chat_id):
     try:
         return SESSION.query(Welcome).get(str(chat_id))
+    except:
+        self.connection.rollback()
+    return
     finally:
         SESSION.close()
 
