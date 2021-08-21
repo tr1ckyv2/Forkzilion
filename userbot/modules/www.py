@@ -48,7 +48,7 @@ async def speedtest(event):
     await event.delete()
     
 
-@register(outgoing=True, pattern="^.speed$")
+@register(outgoing=True, pattern="^\.speed$")
 async def speedtst(spd):
     """ For .speed command, use SpeedTest to check server speeds. """
     await spd.edit("`Running speed test . . .`")
@@ -89,7 +89,7 @@ def speed_convert(size):
     return f"{round(size, 2)} {units[zero]}"
 
 
-@register(outgoing=True, pattern="^.dc$")
+@register(outgoing=True, pattern="^\.dc$")
 async def neardc(event):
     """ For .dc command, get the nearest datacenter information. """
     result = await event.client(functions.help.GetNearestDcRequest())
@@ -100,7 +100,7 @@ async def neardc(event):
     )
 
 
-@register(outgoing=True, pattern="^.ping$")
+@register(outgoing=True, pattern="^\.ping$")
 async def pingme(pong):
     """ For .ping command, ping the userbot from any chat.  """
     start = datetime.now()
