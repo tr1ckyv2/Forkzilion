@@ -966,7 +966,7 @@ async def pressf(f):
 @register(outgoing=True, pattern="^Oof$")
 async def Oof(Woof):
     t = "Oof"
-    for j in range(15):
+    for j in range(12):
         t = t[:-1] + "of"
         await Woof.edit(t)
 
@@ -974,7 +974,7 @@ async def Oof(Woof):
 @register(outgoing=True, pattern="^Yeee$")
 async def Yeee(Yeeee):
     t = "Yeee"
-    for j in range(15):
+    for j in range(12):
         t = t[:-1] + "ee"
         await Yeeee.edit(t)
 
@@ -982,7 +982,7 @@ async def Yeee(Yeeee):
 @register(outgoing=True, pattern="^Proo$")
 async def Pro(proo):
     t = "Proo"
-    for j in range(15):
+    for j in range(12):
         t = t[:-1] + "oo"
         await proo.edit(t)                      
                      
@@ -990,7 +990,7 @@ async def Pro(proo):
 @register(outgoing=True, pattern="^Brrr$")
 async def Brrr(burrr):
     t = "Brrr"
-    for j in range(15):
+    for j in range(12):
         t = t[:-1] + "rr"
         await burrr.edit(t)
 
@@ -998,7 +998,7 @@ async def Brrr(burrr):
 @register(outgoing=True, pattern="^Hmm$")
 async def Hmm(Hmmm):
     t = "Hmm"
-    for j in range(15):
+    for j in range(10):
         t = t[:-1] + "mm"
         await Hmmm.edit(t)
                       
@@ -1006,37 +1006,44 @@ async def Hmm(Hmmm):
 @register(outgoing=True, pattern="^Noo$")
 async def Noo(nooo):
     t = "Noo"
-    for j in range(15):
+    for j in range(12):
         t = t[:-1] + "oo"
         await nooo.edit(t)
                       
 @register(outgoing=True, pattern="^Eww$")
 async def Eww(Ewe):
     t = "Eww"
-    for j in range(15):
+    for j in range(12):
         t = t[:-1] + "ww"
         await Ewe.edit(t)
 
 @register(outgoing=True, pattern="^Ohhh$")
 async def Ohhh(ohhhh):
     t = "Ohhh"
-    for j in range(15):
+    for j in range(12):
         t = t[:-1] + "hh"
         await ohhhh.edit(t)
 
 @register(outgoing=True, pattern="^Yayyy$")
 async def Yayy(yayyyy):
     t = "Yayyy"
-    for j in range(15):
+    for j in range(12):
         t = t[:-1] + "yy"
         await yayyyy.edit(t)
 
 @register(outgoing=True, pattern="^Yesss$")
 async def Yesss(yessss):
     t = "Yesss"
-    for j in range(15):
+    for j in range(12):
         t = t[:-1] + "ss"
-        await yessss.edit(t)                      
+        await yessss.edit(t)
+
+@register(outgoing=True, pattern="^Brooo$")
+async def Brooo(broooo):
+    t = "Brooo"
+    for j in range(12):
+        t = t[:-1] + "oo"
+        await broooo.edit(t)                      
                       
 @register(outgoing=True, pattern="^.moon$")
 async def moon(moone):
