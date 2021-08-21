@@ -136,7 +136,7 @@ async def moni(event):
     c_to_val = round(c_from_val * response["rates"][c_to], 2)
     await event.edit(f"`{c_from_val} {c_from} = {c_to_val} {c_to}`")
 
-@register(outgoing=True, pattern=r"^.google(?: |$)(.*)")
+@register(outgoing=True, pattern=r"^\.google(?: |$)(.*)")
 async def gsearch(q_event):
     """For .google command, do a Google search."""
     textx = await q_event.get_reply_message()
@@ -481,7 +481,7 @@ async def lang(value):
             BOTLOG_CHATID, f"`Language for {scraper} changed to {LANG.title()}.`"
         )
 
-@register(outgoing=True, pattern=r"^.trt(?: |$)([\s\S]*)")
+@register(outgoing=True, pattern=r"^\.trt(?: |$)([\s\S]*)")
 async def translateme(trans):
     """ For .trt command, translate the given text using Google Translate. """
     translator = Translator()
