@@ -33,7 +33,7 @@
 ## Generate STRING_SESSION
 
 ### On repl.it
-[Click here to generate STRING_SESSION on repl.it](https://session.uraniumcore.repl.run)
+[![Run repl.it](https://img.shields.io/badge/run-string__session.py-blue?style=flat-square&logo=repl.it)](https://session.uraniumcore.repl.run)
 
 ### On terminal
 ```
