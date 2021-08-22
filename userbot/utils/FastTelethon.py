@@ -1,7 +1,5 @@
-"""
-> Based on parallel_file_transfer.py from mautrix-telegram, with permission to distribute under the MIT license
-> Copyright (C) 2019 Tulir Asokan - https://github.com/tulir/mautrix-telegram
-"""
+# copied from https://github.com/tulir/mautrix-telegram/blob/master/mautrix_telegram/util/parallel_file_transfer.py
+# Copyright (C) 2021 Tulir Asokan
 import asyncio
 import hashlib
 import inspect
@@ -22,8 +20,6 @@ from telethon.tl.functions.upload import (GetFileRequest, SaveFilePartRequest,
 from telethon.tl.types import (Document, InputFileLocation, InputDocumentFileLocation,
                                InputPhotoFileLocation, InputPeerPhotoFileLocation, TypeInputFile,
                                InputFileBig, InputFile)
-
-filename = ""
 
 try:
     from mautrix.crypto.attachments import async_encrypt_attachment
@@ -218,7 +214,9 @@ class ParallelTransferrer:
 
         part = 0
         while part < part_count:
-            tasks = [self.loop.create_task(sender.next()) for sender in self.senders]
+            tasks = []
+            for sender in self.senders:
+                tasks.append(self.loop.create_task(sender.next()))
             for task in tasks:
                 data = await task
                 if not data:
@@ -276,9 +274,9 @@ async def _internal_transfer_to_telegram(client: TelegramClient,
         await uploader.upload(bytes(buffer))
     await uploader.finish_upload()
     if is_large:
-        return InputFileBig(file_id, part_count, filename), file_size
+        return InputFileBig(file_id, part_count, "upload"), file_size
     else:
-        return InputFile(file_id, part_count, filename, hash_md5.hexdigest()), file_size
+        return InputFile(file_id, part_count, "upload", hash_md5.hexdigest()), file_size
 
 
 async def download_file(client: TelegramClient,
@@ -303,9 +301,8 @@ async def download_file(client: TelegramClient,
 
 async def upload_file(client: TelegramClient,
                       file: BinaryIO,
-                      name,
                       progress_callback: callable = None,
+
                       ) -> TypeInputFile:
-                      global filename
-                      filename = name
-                      return (await _internal_transfer_to_telegram(client, file, progress_callback))[0]
+    res = (await _internal_transfer_to_telegram(client, file, progress_callback))[0]
+    return res

@@ -184,4 +184,3 @@ CMD_HELP.update(
         "\n\nSwitches off AFK when you type back anything, anywhere."
     }
 )
-
