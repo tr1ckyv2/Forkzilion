@@ -22,7 +22,6 @@
 /**
 ```
 [![Build](https://img.shields.io/github/workflow/status/DunggVN/Forkzilion/FailedChecker?style=for-the-badge)](https://github.com/AbOuLfOoOoOuF/ProjectFizilion/actions "build")
-[![Build](https://img.shields.io/github/workflow/status/PrajjuS/ProjectFizilion/FailedChecker?style=for-the-badge)](https://github.com/PrajjuS/ProjectFizilion/actions "build")
 
 ![Docker_Size](https://img.shields.io/docker/image-size/elytra8/fizfed?style=for-the-badge)
 
