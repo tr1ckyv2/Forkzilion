@@ -27,7 +27,7 @@ DEF_UNAPPROVED_MSG = (
     "I am Fizilion, my Master's assistant.\n"
     "Please wait for my Master to read your PMs.\n"
     "Have patience, otherwise spamming my Master's pm will result in a block.\n\n\n"
-    "*This PM is Powered by Fizilion Ai")
+    "*This PM is Powered by Forkzilion AI")
 # =================================================================
 
 
@@ -169,7 +169,7 @@ async def auto_accept(event):
                     )
 
 
-@register(outgoing=True, pattern=r"^.notifoff$")
+@register(outgoing=True, pattern=r"^\.notifoff$")
 async def notifoff(noff_event):
     """ For .notifoff command, stop getting notifications from unapproved PMs. """
     try:
@@ -181,7 +181,7 @@ async def notifoff(noff_event):
     await noff_event.edit("`Notifications from unapproved PM's are silenced!`")
 
 
-@register(outgoing=True, pattern=r"^.notifon$")
+@register(outgoing=True, pattern=r"^\.notifon$")
 async def notifon(non_event):
     """ For .notifoff command, get notifications from unapproved PMs. """
     try:
@@ -192,14 +192,13 @@ async def notifon(non_event):
     delgvar("NOTIF_OFF")
     await non_event.edit("`Notifications from unapproved PM's unmuted!`")
 
-@register(outgoing=True, pattern=r"^.(approve|a)$")
+@register(outgoing=True, pattern=r"^\.(approve|a)$")
 async def approvepm(apprvpm):
     """ For .approve command, give someone the permissions to PM you. """
     try:
         from userbot.modules.sql_helper.globals import gvarstatus
         from userbot.modules.sql_helper.pm_permit_sql import approve
-    except AttributeError:
-        await apprvpm.edit("`Running on Non-SQL mode!`")
+    except (ValueError, AttributeError) as error:
         return
 
     if apprvpm.reply_to_msg_id:
@@ -225,7 +224,7 @@ async def approvepm(apprvpm):
         apprvpm.chat_id, from_user="me", search=UNAPPROVED_MSG
     ):
         await message.delete()
-
+    
     try:
         approve(uid)
     except IntegrityError:
@@ -240,7 +239,7 @@ async def approvepm(apprvpm):
             "#APPROVED\n" + "User: " + f"[{name0}](tg://user?id={uid})",
         )
 
-@register(outgoing=True, pattern=r"^.(disapprove|da)$")
+@register(outgoing=True, pattern=r"^\.(disapprove|da)$")
 async def disapprovepm(disapprvpm):
     try:
         from userbot.modules.sql_helper.pm_permit_sql import dissprove
@@ -271,7 +270,7 @@ async def disapprovepm(disapprvpm):
         )
 
 
-@register(outgoing=True, pattern=r"^.block$")
+@register(outgoing=True, pattern=r"^\.block$")
 async def blockpm(block):
     """ For .block command, block people from PMing you! """
     if block.reply_to_msg_id:
@@ -303,7 +302,7 @@ async def blockpm(block):
         )
 
 
-@register(outgoing=True, pattern=r"^.unblock$")
+@register(outgoing=True, pattern=r"^\.unblock$")
 async def unblockpm(unblock):
     """ For .unblock command, let people PMing you again! """
     if unblock.reply_to_msg_id:
@@ -320,7 +319,7 @@ async def unblockpm(unblock):
         )
 
 
-@register(outgoing=True, pattern=r"^.(set|get|reset) pm_msg(?: |$)(\w*)")
+@register(outgoing=True, pattern=r"^\.(set|get|reset) pm_msg(?: |$)(\w*)")
 async def add_pmsg(cust_msg):
     """ Set your own Unapproved message. """
     if not PM_AUTO_BAN:

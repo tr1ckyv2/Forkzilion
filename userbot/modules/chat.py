@@ -12,8 +12,8 @@ from userbot.events import register
 from userbot.modules.admin import get_user_from_event
 
 
-@register(outgoing=True, pattern="^.id$")
-@register(outgoing=True, pattern="^.userid$")
+@register(outgoing=True, pattern="^\.id$")
+@register(outgoing=True, pattern="^\.userid$")
 async def useridgetter(target):
     """ For .userid command, returns the ID of the target user. """
     message = await target.get_reply_message()
@@ -33,7 +33,7 @@ async def useridgetter(target):
         await target.edit("**Name:** {} \n**User ID:** `{}`".format(name, user_id))
 
 
-@register(outgoing=True, pattern="^.link(?: |$)(.*)")
+@register(outgoing=True, pattern="^\.link(?: |$)(.*)")
 async def permalink(mention):
     """ For .link command, generates a link to the user's PM with a custom text. """
     user, custom = await get_user_from_event(mention)
@@ -48,14 +48,14 @@ async def permalink(mention):
         await mention.edit(f"[{tag}](tg://user?id={user.id})")
 
 
-@register(outgoing=True, pattern="^.ids$")
-@register(outgoing=True, pattern="^.chatid$")
+@register(outgoing=True, pattern="^\.ids$")
+@register(outgoing=True, pattern="^\.chatid$")
 async def chatidgetter(chat):
     """ For .chatid, returns the ID of the chat you are in at that moment. """
     await chat.edit("Chat ID: `" + str(chat.chat_id) + "`")
 
 
-@register(outgoing=True, pattern=r"^.save(?: |$)([\s\S]*)")
+@register(outgoing=True, pattern=r"^\.save(?: |$)([\s\S]*)")
 async def logsave(log_text):
     """ For .save command, forwards a message or the command argument to the bot logs group """
     if BOTLOG:
@@ -76,14 +76,14 @@ async def logsave(log_text):
     await log_text.delete()
 
 
-@register(outgoing=True, pattern="^.kickme$")
+@register(outgoing=True, pattern="^\.kickme$")
 async def kickme(leave):
     """ Basically it's .kickme command """
     await leave.edit("Nope, no, no, I go away")
     await leave.client.kick_participant(leave.chat_id, "me")
 
 
-@register(outgoing=True, pattern="^.unmutechat$")
+@register(outgoing=True, pattern="^\.unmutechat$")
 async def unmute_chat(unm_e):
     """ For .unmutechat command, unmute a muted chat. """
     try:
@@ -97,7 +97,7 @@ async def unmute_chat(unm_e):
     await unm_e.delete()
 
 
-@register(outgoing=True, pattern="^.mutechat$")
+@register(outgoing=True, pattern="^\.mutechat$")
 async def mute_chat(mute_e):
     """ For .mutechat command, mute any chat. """
     try:
@@ -130,34 +130,6 @@ async def keep_read(message):
                 await message.client.send_read_acknowledge(message.chat_id)
 
 
-# Regex-Ninja module by @Kandnub
-regexNinja = False
-
-
-@register(outgoing=True, pattern="^s/")
-async def sedNinja(event):
-    """For regex-ninja module, auto delete command starting with s/"""
-    if regexNinja:
-        await sleep(0.5)
-        await event.delete()
-
-
-@register(outgoing=True, pattern="^.regexninja (on|off)$")
-async def sedNinjaToggle(event):
-    """ Enables or disables the regex ninja module. """
-    global regexNinja
-    if event.pattern_match.group(1) == "on":
-        regexNinja = True
-        await event.edit("`Successfully enabled ninja mode for Regexbot.`")
-        await sleep(1)
-        await event.delete()
-    elif event.pattern_match.group(1) == "off":
-        regexNinja = False
-        await event.edit("`Successfully disabled ninja mode for Regexbot.`")
-        await sleep(1)
-        await event.delete()
-
-
 CMD_HELP.update(
     {
         "chat": ".chatid\
@@ -173,9 +145,6 @@ CMD_HELP.update(
 \n\n.mutechat\
 \nUsage: Allows you to mute any chat.\
 \n\n.link <username/userid> : <optional text> (or) reply to someone's message with .link <optional text>\
-\nUsage: Generate a permanent link to the user's profile with optional custom text.\
-\n\n.regexninja on/off\
-\nUsage: Globally enable/disables the regex ninja module.\
-\nRegex Ninja module helps to delete the regex bot's triggering messages."
+\nUsage: Generate a permanent link to the user's profile with optional custom text."
     }
 )

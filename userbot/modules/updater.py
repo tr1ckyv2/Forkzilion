@@ -21,7 +21,6 @@ from userbot import (
     CMD_HELP,
     HEROKU_API_KEY,
     HEROKU_APP_NAME,
-    UPDATER_ALIAS,
     UPSTREAM_REPO_BRANCH,
     UPSTREAM_REPO_URL,
 )
@@ -96,7 +95,7 @@ async def deploy(event, repo, ups_rem, ac_br, txt):
 
         if BOTLOG:
             await event.client.send_message(
-                BOTLOG_CHATID, "#UPDATE \n" "Your Fizilion was successfully updated"
+                BOTLOG_CHATID, "#UPDATE \n" "Your Forkzilion was successfully updated"
             )
 
     else:
@@ -116,7 +115,7 @@ async def update(event, repo, ups_rem, ac_br):
 
     if BOTLOG:
         await event.client.send_message(
-            BOTLOG_CHATID, "#UPDATE \n" "Your Fizilion was successfully updated, send .changelog to know more about this update."
+            BOTLOG_CHATID, "#UPDATE \n" "Your Forkzilion was successfully updated, send .changelog to know more about this update."
         )
 
     # Spin a new instance of bot
@@ -125,7 +124,7 @@ async def update(event, repo, ups_rem, ac_br):
     return
 
 
-@register(outgoing=True, pattern=r"^.ota(?: |$)(now|deploy)?")
+@register(outgoing=True, pattern=r"^\.ota(?: |$)(now|deploy)?")
 async def upstream(event):
     "For .update command, check if the bot is up to date, update if specified"
     await event.edit("`Checking for updates, please wait....`")
@@ -178,7 +177,7 @@ async def upstream(event):
 
     if changelog == "" and force_update is False:
         await event.edit(
-            f"\nYou are running the latest version of `Fizilion`\n"
+            f"\nYou are running the latest version of `Forkzilion`\n"
         )
         return repo.__del__()
 
@@ -206,7 +205,7 @@ async def upstream(event):
             "`Force-Syncing to latest stable userbot code, please wait...`"
         )
     else:
-        await event.edit("`Updating Fizilion, please wait....`")
+        await event.edit("`Updating Forkzilion, please wait....`")
     if conf == "now":
         await update(event, repo, ups_rem, ac_br)
     elif conf == "deploy":
