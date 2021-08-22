@@ -6,21 +6,6 @@
 
 # Forkzilion (Fork of Fizilion) *Custom edition (Based on SuperLight)*
 
-```
-#include <std/disclaimer.h>
-/**
-    Your Telegram account may get banned.
-    I am not responsible for any improper use of this bot
-    This bot is intended for the purpose of having fun with memes,
-    as well as efficiently managing groups.
-    You ended up spamming groups, getting reported left and right,
-    and you ended up in a Finale Battle with Telegram and at the end
-    Telegram Team deleted your account?
-    And after that, then you pointed your fingers at us
-    for getting your acoount deleted?
-    I will be rolling on the floor laughing at you.
-/**
-```
 [![Build](https://img.shields.io/github/workflow/status/DunggVN/Forkzilion/FailedChecker?style=for-the-badge)](https://github.com/AbOuLfOoOoOuF/ProjectFizilion/actions "build")
 
 ![Docker_Size](https://img.shields.io/docker/image-size/_/ubuntu?style=for-the-badge)
@@ -33,8 +18,6 @@
 
 ## Disclaimer
 ```
-#include <std/disclaimer.h>
-/**
       Your Telegram account may get banned.
       I am not responsible for any improper use of this bot
       This bot is intended for the purpose of having fun with memes,
@@ -45,20 +28,19 @@
       And after that, then you pointed your fingers at us
       for getting your acoount deleted?
       I will be rolling on the floor laughing at you.
-/**
 ```
 
-## Generate String Session
+## Generate STRING_SESSION
 
-### Run on repl.it
-[![Click here to generate STRING_SESSION on repl.it](https://img.shields.io/badge/run-string__session.py-blue?style=flat-square&logo=repl.it)](https://session.uraniumcore.repl.run)
+### On repl.it
+[Click here to generate STRING_SESSION on repl.it](https://session.uraniumcore.repl.run)
 
-### Run on your terminal
+### On terminal
 ```
 wget https://raw.githubusercontent.com/PrajjuS/ProjectFizilion/demon/terminal_getstring.sh && bash terminal_getstring.sh
 ```
 
-## How To Host?
+## How To Host ?
 
 ### Deploy on Heroku
 Make sure you have a Heroku account and fill all required vars to run the bot.
