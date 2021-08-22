@@ -4,7 +4,8 @@
    <br>
 </p>
 
-# Forkzilion (Fork of Fizilion) *Custom edition (Based on SuperLight)*
+# Forkzilion (Fork of Project Fizilion)
+## *Custom edition (Based on SuperLight)*
 
 [![Build](https://img.shields.io/github/workflow/status/DunggVN/Forkzilion/FailedChecker?style=for-the-badge)](https://github.com/AbOuLfOoOoOuF/ProjectFizilion/actions "build")
 
@@ -56,7 +57,7 @@ For further guide you can read this [Guide](https://telegra.ph/How-to-host-a-Tel
 ## Credits
 
 Thanks:
-* [AbOuLfOoOoOuF](https://github.com/AbOuLfOoOoOuF) - Dev of Original Forkzilion's
+* [AbOuLfOoOoOuF](https://github.com/AbOuLfOoOoOuF) - Original Forkzilion's
 * [RaphielGang](https://github.com/RaphielGang) - Telegram-Paperplane
 * [AvinashReddy3108](https://github.com/AvinashReddy3108) - PaperplaneExtended
 * [kandnub](https://github.com/kandnub) - TG-UserBot
