@@ -41,10 +41,10 @@ else
     arr+=(wget )
 fi
 
-DEPENDENCIES=${arr[@]}
+DEPENDENCIES=${arr[*]}
 sleep 1
 
-if [ ! -z "$DEPENDENCIES" ]; then
+if [ -n "$DEPENDENCIES" ]; then
     echo -e "\nInstalling required dependencies\n"
     sleep 1
 
@@ -90,7 +90,7 @@ echo -e "Do you want to cleanup your file?"
 echo -e "[1] cleanup: this delete string_session.py and this file"
 echo -e "[2] exit"
 echo -ne "\nEnter your choice[1-2]: "
-read choice
+read -r choice
 if [ "$choice" = "1" ]; then
     echo -e "Cleanup: removing file"
     rm -f string_session.py terminal_getstring.sh
