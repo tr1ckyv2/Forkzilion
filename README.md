@@ -1,5 +1,5 @@
 <p align="center">
-   <a href="https://github.com/PrajjuS/ProjectFizilion"><img src="https://github.com/PrajjuS/ProjectFizilion/raw/dragon/resources/IMG_20201109_130207_262.jpg" alt="Fizi Logo" width=600px></a>
+   <a href="https://github.com/DunggVN/Forkzilion"><img src="https://github.com/DunggVN/Forkzilion/raw/DunggVN/resources/on.jpg" alt="Forkzilion Custom Logo" width=600px></a>
    <br>
    <br>
 </p>
@@ -57,7 +57,8 @@ For further guide you can read this [Guide](https://telegra.ph/How-to-host-a-Tel
 ## Credits
 
 Thanks:
-* [AbOuLfOoOoOuF](https://github.com/AbOuLfOoOoOuF) - Original Forkzilion's
+* [PrajjuS](https://github.com/PrajjuS) - Project Fizilion
+* [AbOuLfOoOoOuF](https://github.com/AbOuLfOoOoOuF) - Original Forkzilion
 * [RaphielGang](https://github.com/RaphielGang) - Telegram-Paperplane
 * [AvinashReddy3108](https://github.com/AvinashReddy3108) - PaperplaneExtended
 * [kandnub](https://github.com/kandnub) - TG-UserBot
