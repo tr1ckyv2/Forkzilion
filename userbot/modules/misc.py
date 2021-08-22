@@ -88,17 +88,10 @@ async def guidee(event):
 )
 
 
-@register(outgoing=True, pattern="^\.repoo$")
-async def repo_is_here(wannasee):
-    """ For .repo command, just returns the repo URL. """
-    await wannasee.edit(
-        "[Click here](https://github.com/DunggVN/Forkzilion/tree/DunggVN) to open my Forkzilion's GitHub Repo."
-    )
-
 @register(outgoing=True, pattern="^\.repo$")
-async def repo_is_heree(wannaseee):
-    """ For .repo command, just returns the repo URL. """
-    await wannaseee.edit(
+async def repo_is_here(wannasee):
+    """For .repo command, just returns the repo URL."""
+    await wannasee.edit(
         "[Click here](https://github.com/DunggVN/Forkzilion/tree/DunggVN) to open my Forkzilion's GitHub Repo."
     )
 
