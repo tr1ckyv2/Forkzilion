@@ -7,6 +7,7 @@ git clone https://github.com/DunggVN/Forkzilion -b DunggVN
 cd Forkzilion || exit
 
 pip install --upgrade pip setuptools
+pip intsall psycopg2
 pip install -r requirements.txt
 
 mv sample_config.env config.env
